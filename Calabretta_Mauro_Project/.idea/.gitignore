@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../:\Alessandro\uniCT\Magistrale\Secondo_Anno\1_Distributed_Systems_and_Big_Data\Progetto_Esame\git_pd\Calabretta_Mauro_Project\.idea/dataSources/
+/dataSources.local.xml
+# Zeppelin ignored files
+/ZeppelinRemoteNotebooks/
+# Editor-based HTTP Client requests
+/httpRequests/
