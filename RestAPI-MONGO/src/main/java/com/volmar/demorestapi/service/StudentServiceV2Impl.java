@@ -11,28 +11,28 @@ import com.volmar.demorestapi.repository.StudentRepository;
 @Service("v2")
 public class StudentServiceV2Impl implements StudentService {
 
-	@Autowired
-	StudentRepository studentRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
-	@Override
-	public Iterable<Student> findAll() {
-		return studentRepository.findAll();
-	}
+    @Override
+    public Iterable<Student> findAll() {
+        return studentRepository.findAll();
+    }
 
-	@Override
-	public Student save(Student student) {
-		return studentRepository.save(student);
-	}
+    @Override
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
 
-	@Override
-	public Optional<Student> findByID(String id) {
-		return studentRepository.findById(id);
-	}
+    @Override
+    public Optional<Student> findByID(String id) {
+        return studentRepository.findById(id);
+    }
 
-	@Override
-	public void removeStudent(String id) {
-    	Student st = new Student();
-    	st.setId(id);
-    	studentRepository.delete(st);		
-	}
+    @Override
+    public void removeStudent(String id) {
+        Student st = new Student();
+        st.setId(id);
+        studentRepository.delete(st);
+    }
 }

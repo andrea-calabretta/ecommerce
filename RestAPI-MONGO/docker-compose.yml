@@ -4,11 +4,11 @@ services:
     image: mongo:3.2.4
     container_name: "mongodb"
     ports:
-    - 27017:27017
+      - 27017:27017
     command: --smallfiles
   app:
     image: volmar/demo-restapi
     ports:
-    - 8080:8080
+      - 8080:8080
     links:
-    - mongodb
+      - mongodb

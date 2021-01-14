@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
 @Configuration
-public class FakeMongo extends AbstractMongoConfiguration{
+public class FakeMongo extends AbstractMongoConfiguration {
 
     @Override
     protected String getDatabaseName() {

@@ -6,12 +6,12 @@ import com.volmar.demorestapi.model.Student;
 
 public interface StudentService {
 
-	public Iterable<Student> findAll();
+    public Iterable<Student> findAll();
 
-	public Student save(Student student);
+    public Student save(Student student);
 
-	public Optional<Student> findByID(String id);
+    public Optional<Student> findByID(String id);
 
-	public void removeStudent(String id);
+    public void removeStudent(String id);
 
 }

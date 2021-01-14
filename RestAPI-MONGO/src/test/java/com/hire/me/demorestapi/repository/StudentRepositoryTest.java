@@ -28,45 +28,45 @@ import com.volmar.demorestapi.repository.StudentRepository;
  * queries are not working in test mode, Fongo not able to set up text index ?
  */
 @RunWith(SpringRunner.class)
-@Import(value = { FakeMongo.class })
-@EnableMongoRepositories(basePackageClasses = { StudentRepository.class })
+@Import(value = {FakeMongo.class})
+@EnableMongoRepositories(basePackageClasses = {StudentRepository.class})
 public class StudentRepositoryTest {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Autowired
-	private StudentRepository studentRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
-	@Rule
-	public MongoDbRule embeddedMongoDbRule = newMongoDbRule().defaultSpringMongoDb("mockDB");
+    @Rule
+    public MongoDbRule embeddedMongoDbRule = newMongoDbRule().defaultSpringMongoDb("mockDB");
 
-	@Test
-	@UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
-	public void noStudentsTest() {
-		List<Student> students = studentRepository.findAll();
-		assertTrue("Returned book list should be empty", students.isEmpty());
-	}
-	
-	@Test
-	@UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
-	public void saveStudentsTest() {
-		int qt = 10;
-		for (int i = 0; i < qt; i++) {
-			studentRepository.save(new Student());		
-		}
-		List<Student> students = studentRepository.findAll();
-		assertEquals(qt, students.size());
-	}
-	
-	@Test
-	@UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
-	public void findById() {
-		studentRepository.save(new Student("volmar"));
-		List<Student> students = studentRepository.findAll();
-		Optional<Student> st = studentRepository.findById(students.get(0).getId());
-		assertTrue(st.isPresent());
-		assertEquals("volmar", st.get().getName());
-	}
+    @Test
+    @UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
+    public void noStudentsTest() {
+        List<Student> students = studentRepository.findAll();
+        assertTrue("Returned book list should be empty", students.isEmpty());
+    }
+
+    @Test
+    @UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
+    public void saveStudentsTest() {
+        int qt = 10;
+        for (int i = 0; i < qt; i++) {
+            studentRepository.save(new Student());
+        }
+        List<Student> students = studentRepository.findAll();
+        assertEquals(qt, students.size());
+    }
+
+    @Test
+    @UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
+    public void findById() {
+        studentRepository.save(new Student("volmar"));
+        List<Student> students = studentRepository.findAll();
+        Optional<Student> st = studentRepository.findById(students.get(0).getId());
+        assertTrue(st.isPresent());
+        assertEquals("volmar", st.get().getName());
+    }
 
 }

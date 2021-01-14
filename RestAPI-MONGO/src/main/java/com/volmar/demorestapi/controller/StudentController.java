@@ -14,21 +14,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-	@Autowired
-	StudentRepository studentRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public Iterable<Student> student() {
-		return studentRepository.findAll();
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public Iterable<Student> student() {
+        return studentRepository.findAll();
+    }
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Student create(@RequestBody Student student) {
-		return studentRepository.save(student);
-	}
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Student create(@RequestBody Student student) {
+        return studentRepository.save(student);
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public Optional<Student> read(@PathVariable String id) {
-		return studentRepository.findById(id);
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public Optional<Student> read(@PathVariable String id) {
+        return studentRepository.findById(id);
+    }
 }
