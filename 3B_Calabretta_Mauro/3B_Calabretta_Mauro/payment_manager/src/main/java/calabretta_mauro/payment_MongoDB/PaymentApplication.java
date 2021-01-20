@@ -1,13 +1,13 @@
-package calabretta_mauro_proj.paymentsmanager;
+package calabretta_mauro.payment_MongoDB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PaymentsManagerApplication {
+public class PaymentApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PaymentsManagerApplication.class, args);
+        SpringApplication.run(PaymentApplication.class, args);
     }
 
 }
