@@ -16,7 +16,7 @@ x-xxx-common-services-config: &common-services-config
 
 x-kafka-env: &kafka-env
   KAFKA_BROKER_ID: 1
-  #KAFKA_ADVERTISED_PORT: 9092
+  KAFKA_ADVERTISED_PORT: 9092
   BROKER_ID_COMMAND: "hostname | cut -d'-' -f2"
   KAFKA_ZOOKEEPER_CONNECT: "zoo:2181"
   KAFKA_CREATE_TOPICS: "logging:20:1,notifications:10:1,invoicing:10:1,mailing:10:1,userupdates:10:1,orders:10:1"
