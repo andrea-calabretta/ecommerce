@@ -1,0 +1,59 @@
+version: '3.8'
+
+x-mongo-secrets: &mongo-credentials
+  MONGO_USER: &mongo-user root
+  MONGO_PASS: &mongo-pass toor
+  MONGO_AUTH_DB: admin
+  MONGO_HOST: mongo
+  MONGO_PORT: 27017
+  MONGO_DB_NAME: orderdb
+
+x-common-settings: &common-settings
+  restart: always
+
+x-xxx-common-services-config: &common-services-config
+  restart: always
+
+x-kafka-env: &kafka-env
+  KAFKA_BROKER_ID: 1
+  KAFKA_ADVERTISED_PORT: 9092
+  BROKER_ID_COMMAND: "hostname | cut -d'-' -f2"
+  KAFKA_ZOOKEEPER_CONNECT: "zoo:2181"
+  KAFKA_CREATE_TOPICS: "logging:20:1,notifications:10:1,invoicing:10:1,mailing:10:1,userupdates:10:1,orders:10:1"
+  KAFKA_LISTENERS: "PLAINTEXT://:9092"
+
+services:
+  mongo:
+    <<: *common-settings
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: *mongo-user
+      MONGO_INITDB_ROOT_PASSWORD: *mongo-pass
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-db-data:/data/db
+
+  payment-manager:
+    <<: *common-settings
+    build: ../payment-manager
+    environment: *mongo-credentials
+    ports:
+      #- 5555:5555
+      - 8088:8080
+    volumes:
+      - ../payment-manager:/app
+
+  zoo:
+    <<: *common-services-config
+    image: library/zookeeper:3.4.13
+    environment:
+      ZOO_MY_ID: 1
+
+  kafka:
+    <<: *common-services-config
+    environment: *kafka-env
+    image: wurstmeister/kafka:2.11-2.0.0
+
+volumes:
+  mongo-db-data:

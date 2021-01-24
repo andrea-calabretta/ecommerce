@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Component
+@Controller
 @RequestMapping(path = "/order")
 public class OrderController {
 
@@ -21,6 +21,7 @@ public class OrderController {
 
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Order add(@RequestBody Order order){
+
         return svc.save(order);
     }
 
