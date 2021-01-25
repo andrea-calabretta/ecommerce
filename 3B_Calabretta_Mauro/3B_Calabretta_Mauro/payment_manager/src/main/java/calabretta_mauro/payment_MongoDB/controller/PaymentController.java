@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Component
 @RequestMapping(path = "/payment")
@@ -26,6 +27,8 @@ public class PaymentController {
 
     @Autowired
     private KafkaTemplate<String, String> template;
+
+    Date date = new Date();
 
     //metodo che richiede come input il
     //msg che vogliamo pubblicare sul topic kafka
@@ -46,7 +49,8 @@ public class PaymentController {
                 .setPaymentId(payment.getPaymentId())
                 .setUserId(payment.getUserId())
                 .setOrderId(payment.getOrderId())
-                .setAmountPaid(payment.getAmountPaid());
+                .setAmountPaid(payment.getAmountPaid())
+                .setCreationTstp(new Timestamp(date.getTime()));
         sendMessage(new Gson().toJson(updateRequest));
         return payment;
     }

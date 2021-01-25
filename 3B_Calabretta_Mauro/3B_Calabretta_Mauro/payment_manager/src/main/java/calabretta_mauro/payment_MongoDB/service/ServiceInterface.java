@@ -13,4 +13,6 @@ public interface ServiceInterface {
     public Optional<Payment> findById(String orderId);
 
     public void removeOrder(String orderId);
+
+    public Iterable<Payment> getPaymentByDate(long startTmsp, long endTmsp);
 }

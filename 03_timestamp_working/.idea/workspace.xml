@@ -23,16 +23,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2c35c1b-138a-4894-8abd-bc203bd30cba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/src/main/java/calabrettamauro/dsbd2021/project/paymentmanager/controller/IPNController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/src/main/java/calabrettamauro/dsbd2021/project/paymentmanager/data/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/entities/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/entities/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/entities/target/classes/order/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/entities/target/classes/order/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/src/main/java/controller/IPNController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/src/main/java/controller/TransactionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Calabretta-Mauro-Project/payment-manager/src/main/java/data/OrderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-manager/src/main/java/payment/controller/PaymentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-manager/src/main/java/payment/controller/PaymentsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-manager/src/main/java/payment/data/OrderUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-manager/src/main/java/payment/data/PaymentsUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/kafka/PaymentsUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/kafka/PaymentsUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/model/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/service/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/service/ServiceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3B_Calabretta_Mauro/3B_Calabretta_Mauro/payment_manager/src/main/java/calabretta_mauro/payment_MongoDB/service/ServiceInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +61,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
@@ -74,6 +73,15 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Alessandro\uniCT\Magistrale\Secondo_Anno\1_Distributed_Systems_and_Big_Data\Progetto_Esame\dsbd_branch_ale\ecommerce\03_timestamp_working\payment-manager" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="SPRING_BOOT_MAIN_CLASS" value="payment.PaymentManagerApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -88,6 +96,8 @@
       <workItem from="1611532378610" duration="7000" />
       <workItem from="1611532438150" duration="62000" />
       <workItem from="1611532523238" duration="1573000" />
+      <workItem from="1611534565613" duration="5000" />
+      <workItem from="1611534882574" duration="2687000" />
     </task>
     <servers />
   </component>
@@ -107,13 +117,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2360" y="92" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611534083674">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="417" y="95" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611535321073">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="417" y="95" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1611535321073" />
     <state x="2360" y="92" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611534083674" />
-    <state x="2635" y="227" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1611534080063">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="572" y="180" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1611535223528">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="572" y="180" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1611535223528" />
     <state x="2635" y="227" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611534080063" />
     <state x="2381" y="164" key="SettingsEditor" timestamp="1611532567690">
       <screen x="1920" y="0" width="1920" height="1040" />

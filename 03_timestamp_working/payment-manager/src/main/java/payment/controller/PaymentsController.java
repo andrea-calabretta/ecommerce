@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import payment.data.OrderUpdateRequest;
+import payment.data.PaymentsUpdateRequest;
 import payment.model.Payments;
 import payment.service.PaymentsService;
 
@@ -36,7 +36,7 @@ public class PaymentsController {
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     Payments add(@RequestBody Payments payments){
-        OrderUpdateRequest updateRequest = (OrderUpdateRequest) new OrderUpdateRequest()
+        PaymentsUpdateRequest updateRequest = (PaymentsUpdateRequest) new PaymentsUpdateRequest()
                 .setOrderId(order.getOrderId())
                 .setUserId(order.getUserId())
                 .setAmountPaid(order.getAmountPaid())

@@ -1,9 +1,13 @@
 package calabretta_mauro.payment_MongoDB.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.hibernate.annotations.CreationTimestamp;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.sql.Timestamp;
+
+@Document
 public class Payment {
 
     @Id
@@ -13,19 +17,21 @@ public class Payment {
     private String orderId;
     private String amountPaid;
 
-    @CreationTimestamp
-    private long timestamp;
+    private Timestamp creationTstp;
+    private Timestamp updateTstp;
 
     @JsonCreator
-    public Payment() {
+    public Payment(String paymentId, String userId, String orderId, String amountPaid, Timestamp creationTstp, Timestamp updateTstp) {
         this.amountPaid = amountPaid;
         this.paymentId = paymentId;
         this.userId = userId;
         this.orderId = orderId;
+        this.creationTstp = creationTstp;
+        this.updateTstp = updateTstp;
     }
 
-    public Payment(long timestamp) {
-        this.timestamp = timestamp;
+    public Payment(){
+
     }
 
     public String getPaymentId() {
@@ -64,12 +70,21 @@ public class Payment {
         return this;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public Timestamp getCreationTstp() {
+        return creationTstp;
     }
 
-    public Payment setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public Payment setCreationTstp(Timestamp creationTstp) {
+        this.creationTstp = creationTstp;
+        return this;
+    }
+
+    public Timestamp getUpdateTstp() {
+        return updateTstp;
+    }
+
+    public Payment setUpdateTstp(Timestamp updateTstp) {
+        this.updateTstp = updateTstp;
         return this;
     }
 
@@ -80,7 +95,8 @@ public class Payment {
                 ", userId='" + userId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", amountPaid='" + amountPaid + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", creationTstp=" + creationTstp +
+                ", updateTstp=" + updateTstp +
                 '}';
     }
 }

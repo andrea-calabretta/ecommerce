@@ -1,12 +1,17 @@
 package calabretta_mauro.payment_MongoDB.kafka;
 
 
-public class PaymentsUpdateRequest {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+public class PaymentsUpdateRequest implements Serializable {
 
     private String paymentId;
     private String userId;
     private String orderId;
     private String amountPaid;
+
+    private Timestamp creationTstp;
 
     public String getPaymentId() {
         return paymentId;
@@ -44,6 +49,15 @@ public class PaymentsUpdateRequest {
         return this;
     }
 
+    public Timestamp getCreationTstp() {
+        return creationTstp;
+    }
+
+    public PaymentsUpdateRequest setCreationTstp(Timestamp creationTstp) {
+        this.creationTstp = creationTstp;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "PaymentsUpdateRequest{" +
@@ -51,6 +65,7 @@ public class PaymentsUpdateRequest {
                 ", userId='" + userId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", amountPaid='" + amountPaid + '\'' +
+                ", creationTstp=" + creationTstp +
                 '}';
     }
 }

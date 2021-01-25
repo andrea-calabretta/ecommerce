@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -35,14 +34,19 @@ public class PaymentService implements ServiceInterface{
         paymentRepository.deleteById(orderId);
     }
 
-    public Iterable<Payment> getPaymentsWithTimestamp(String xUserId, Timestamp beginTimestamp, Timestamp endTimestamp){
-        if (xUserId == "0"){
-            return paymentRepository.findByUserIdAndTimestampGreaterThanEqualAndTimestampLessThanEqual(xUserId, beginTimestamp, endTimestamp);
-        }else {
-            //System.out.printf("\"Invalid userId, must be 0\"") ; //da sistemare con errors
-            return paymentRepository.findByUserIdAndTimestampGreaterThanEqualAndTimestampLessThanEqual(xUserId, beginTimestamp, endTimestamp);
-        }
+    @Override
+    public Iterable<Payment> getPaymentByDate(long startTmsp, long endTmsp){
+        return paymentRepository.findAll();
     }
+
+//    public Iterable<Payment> getPaymentsWithTimestamp(String xUserId, Timestamp beginTimestamp, Timestamp endTimestamp){
+//        if (xUserId == "0"){
+//            return paymentRepository.findByUserIdAndTimestampGreaterThanEqualAndTimestampLessThanEqual(xUserId, beginTimestamp, endTimestamp);
+//        }else {
+//            //System.out.printf("\"Invalid userId, must be 0\"") ; //da sistemare con errors
+//            return paymentRepository.findByUserIdAndTimestampGreaterThanEqualAndTimestampLessThanEqual(xUserId, beginTimestamp, endTimestamp);
+//        }
+//    }
 
     /*
     public Iterable<Payment> getPaymentByDate(Integer userId, Timestamp fromTimestamp, Timestamp endTimestamp){
