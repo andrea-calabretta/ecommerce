@@ -55,17 +55,16 @@ public class OrderController {
     @PostMapping(path = "/ping")
     public @ResponseBody
     pingAckBody ping(){
-        int flag;
-        // prima facciamo un check al db
+        pingAckBody resPing = new pingAckBody("up");
+        // facciamo un check al db
         try {
-            svc.count();
-            flag = 1;
+            svc.count(); //query di prova che restitusce il numero di collections presenti nel DB
+            resPing.setDbStatus("up");
         }catch (Exception e){
-            System.out.println("Mongo DB non raggiungibile");
-            flag = 0;
+            System.out.println("Mongo DB non raggiungibile.");
+            resPing.setDbStatus("down");
         }
-        pingAckBody resPing = new pingAckBody("up", "up");
-        if (flag == 0 ) resPing.setDbStatus("down");
+
         return resPing;
 
     }

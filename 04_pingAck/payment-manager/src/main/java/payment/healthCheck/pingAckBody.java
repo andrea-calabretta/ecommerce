@@ -11,6 +11,10 @@ public class pingAckBody {
         this.serviceStatus = serviceStatus;
         this.dbStatus = dbStatus;
     }
+    @JsonCreator
+    public pingAckBody(String serviceStatus) {
+        this.serviceStatus = serviceStatus;
+    }
 
     public pingAckBody(){
 
