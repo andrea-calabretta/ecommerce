@@ -8,6 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import payment.data.OrderUpdateRequest;
+import payment.healthCheck.pingAckBody;
 import payment.model.Order;
 import payment.service.OrderService;
 
@@ -51,7 +52,23 @@ public class OrderController {
         return svc.save(order);
     }
 
+    @PostMapping(path = "/ping")
+    public @ResponseBody
+    pingAckBody ping(){
+        int flag;
+        // prima facciamo un check al db
+        try {
+            svc.count();
+            flag = 1;
+        }catch (Exception e){
+            System.out.println("Mongo DB non raggiungibile");
+            flag = 0;
+        }
+        pingAckBody resPing = new pingAckBody("up", "up");
+        if (flag == 0 ) resPing.setDbStatus("down");
+        return resPing;
 
+    }
 
 
 

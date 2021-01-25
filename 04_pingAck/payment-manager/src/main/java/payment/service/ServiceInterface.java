@@ -11,6 +11,8 @@ public interface ServiceInterface {
 
     public Optional<Order> findById(String orderId);
 
+    public long count();
+
     public void removeOrder(String orderId);
 
     public Iterable<Order> getOrderByDate(long startTmsp, long endTmsp);

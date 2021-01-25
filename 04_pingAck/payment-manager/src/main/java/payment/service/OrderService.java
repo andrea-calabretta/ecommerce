@@ -20,8 +20,14 @@ public class OrderService implements ServiceInterface{
     @Override
     public Order save(Order order) { return orderRepository.save(order); }
 
+
     @Override
     public Optional<Order> findById(String orderId) { return orderRepository.findById(orderId); }
+
+    @Override
+    public long count() {
+        return orderRepository.count();
+    }
 
     @Override
     public void removeOrder(String orderId) { orderRepository.deleteById(orderId);}

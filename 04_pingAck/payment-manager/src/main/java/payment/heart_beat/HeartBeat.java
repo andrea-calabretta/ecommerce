@@ -1,9 +1,9 @@
 package payment.heart_beat;
 
 public class HeartBeat {
-    private String service;
-    private String serviceStatus;
-    private String dbStatus;
+    private String service;  //nome del microservizio "serviceName"
+    private String serviceStatus;  // stato del microservizio "up | down"
+    private String dbStatus;        //stato del DB "up | down"
 
     public HeartBeat(String service, String serviceStatus, String dbStatus) {
         this.service = service;
