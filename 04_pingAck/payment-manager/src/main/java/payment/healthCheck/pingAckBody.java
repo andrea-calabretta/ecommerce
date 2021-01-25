@@ -16,9 +16,6 @@ public class pingAckBody {
         this.serviceStatus = serviceStatus;
     }
 
-    public pingAckBody(){
-
-    }
 
     public String getServiceStatus() {
         return serviceStatus;
