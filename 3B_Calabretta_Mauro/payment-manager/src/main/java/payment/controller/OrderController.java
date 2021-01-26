@@ -12,8 +12,9 @@ import payment.healthCheck.pingAckBody;
 import payment.model.Order;
 import payment.service.OrderService;
 
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/order")
@@ -69,21 +70,32 @@ public class OrderController {
     }
 
     @GetMapping(path = "/tra")
-    public @ResponseBody long
+    public @ResponseBody
+    Iterable <Order>
     getOrderByDate()
     {
-        return svc.count();
+        return svc.findAll();
 
     }
 
     @GetMapping(path = "/transactions")
-    public @ResponseBody Iterable<Order>
-    getOrderByDate(@RequestParam long fromTimestamp, @RequestParam long endTimestamp, @RequestHeader Integer userId)
+    public @ResponseBody
+    ArrayList <Order>
+    getOrderByDate(@RequestParam long fromTimestamp,
+                   @RequestParam long endTimestamp,
+                   @RequestHeader Integer userId)
     {
-        Timestamp from = new Timestamp(fromTimestamp);
-        Timestamp end = new Timestamp(endTimestamp);
-
-        return svc.findAll();
+        ArrayList<Order> orders_tot= (ArrayList<Order>) svc.findAll();
+        ArrayList<Order> orders_filtered = new ArrayList<>();
+        for (int i = 0; i< orders_tot.size(); i++)
+        {
+            if (orders_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
+             orders_tot.get(i).getUnix_creation_ts() <= endTimestamp)
+            {
+                orders_filtered.add(orders_tot.get(i));
+            }
+        }
+        return orders_filtered;
 
     }
 
