@@ -106,7 +106,7 @@ public class PaymentController {
                 if (payments_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
                         payments_tot.get(i).getUnix_creation_ts() <= endTimestamp)
                 {
-                    payments_filtered.add(orders_tot.get(i));
+                    payments_filtered.add(payments_tot.get(i));
                 }
             }
             return payments_filtered;
