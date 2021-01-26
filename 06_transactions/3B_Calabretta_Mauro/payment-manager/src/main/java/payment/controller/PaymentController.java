@@ -9,24 +9,25 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import payment.data.OrderUpdateRequest;
+import payment.data.PaymentUpdateRequest;
 import payment.healthCheck.pingAckBody;
-import payment.model.Order;
-import payment.service.OrderService;
+import payment.model.Payment;
+import payment.service.PaymentService;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/order")
-public class OrderController {
+@RequestMapping(path = "/payment")
+public class PaymentController {
     @Autowired
-    OrderService svc;
-
+    PaymentService svc;
 
     @Value("${kafkaTopic}")
     private String topic;
+
+    @Value("${kafkaError}")
+    private String topicError;
 
     @Autowired
     private KafkaTemplate<String, String> template;
@@ -34,25 +35,35 @@ public class OrderController {
     public void sendMessage(String msg){
         template.send(topic, msg);
     }
-
-    //http://localhost:8088/order/ipn
-    @PostMapping(path = "/ipn", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    Order add(@RequestBody Order order){
-        OrderUpdateRequest updateRequest = (OrderUpdateRequest) new OrderUpdateRequest()
-                .setOrderId(order.getOrderId())
-                .setUserId(order.getUserId())
-                .setAmountPaid(order.getAmountPaid())
-                .setUnix_creation_ts(Instant.now().getEpochSecond());
-        sendMessage(new Gson().toJson(updateRequest));
-        return updateRequest;
+    public void sendError(String msg){
+        template.send(topicError, msg);
     }
 
-    //http://localhost:8088/order/save
+    //http://localhost:8088/payment/ipn
+    @PostMapping(path = "/ipn", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Payment add(@RequestBody Payment payment) throws Exception{
+
+        try {
+            PaymentUpdateRequest updateRequest = (PaymentUpdateRequest) new PaymentUpdateRequest()
+                    .setOrderId(payment.getOrderId())
+                    .setUserId(payment.getUserId())
+                    .setAmountPaid(payment.getAmountPaid())
+                    .setUnix_creation_ts(Instant.now().getEpochSecond());
+            sendMessage(new Gson().toJson(updateRequest));
+            return updateRequest;
+        }catch (Exception e){
+
+            throw new ResponseStatusException(HttpStatus.MULTI_STATUS) ;
+        }
+    }
+
+    //http://localhost:8088/payment/save
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Order save(@RequestBody Order order){
-        order.setUnix_creation_ts(Instant.now().getEpochSecond());
-        return svc.save(order);
+    public @ResponseBody
+    Payment save(@RequestBody Payment payment){
+        payment.setUnix_creation_ts(Instant.now().getEpochSecond());
+        return svc.save(payment);
     }
 
     @PostMapping(path = "/ping")
@@ -73,7 +84,7 @@ public class OrderController {
 
     @GetMapping(path = "/tra")
     public @ResponseBody
-    Iterable <Order>
+    Iterable <Payment>
     getOrderByDate()
     {
         return svc.findAll();
@@ -82,23 +93,23 @@ public class OrderController {
 
     @GetMapping(path = "/transactions")
     public @ResponseBody
-    ArrayList <Order>
+    ArrayList <Payment>
     getOrderByDate(@RequestParam long fromTimestamp,
                    @RequestParam long endTimestamp,
                    @RequestHeader Integer userId) throws Exception
     {
         if (userId == 0){
-            ArrayList<Order> orders_tot= (ArrayList<Order>) svc.findAll();
-            ArrayList<Order> orders_filtered = new ArrayList<>();
-            for (int i = 0; i< orders_tot.size(); i++)
+            ArrayList<Payment> payments_tot= (ArrayList<Payment>) svc.findAll();
+            ArrayList<Payment> payments_filtered = new ArrayList<>();
+            for (int i = 0; i< payments_tot.size(); i++)
             {
-                if (orders_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
-                        orders_tot.get(i).getUnix_creation_ts() <= endTimestamp)
+                if (payments_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
+                        payments_tot.get(i).getUnix_creation_ts() <= endTimestamp)
                 {
-                    orders_filtered.add(orders_tot.get(i));
+                    payments_filtered.add(orders_tot.get(i));
                 }
             }
-            return orders_filtered;
+            return payments_filtered;
         }
         else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED) ;
 

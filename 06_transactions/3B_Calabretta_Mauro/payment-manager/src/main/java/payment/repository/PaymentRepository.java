@@ -1,11 +1,10 @@
 package payment.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
-import payment.model.Order;
+import payment.model.Payment;
 
 
-public interface OrderRepository extends MongoRepository <Order, String> {
+public interface PaymentRepository extends MongoRepository <Payment, String> {
 
     //Iterable<Order> findCreatedAtGreaterThanEqualAndCreatedAtLessThanEqual(long startTmsp, long endTmsp);
 

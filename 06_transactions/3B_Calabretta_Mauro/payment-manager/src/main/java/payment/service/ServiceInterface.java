@@ -1,15 +1,15 @@
 package payment.service;
 
-import payment.model.Order;
+import payment.model.Payment;
 
 import java.util.Optional;
 
 public interface ServiceInterface {
-    public Iterable<Order> findAll();
+    public Iterable<Payment> findAll();
 
-    public  Order save (Order order);
+    public Payment save (Payment payment);
 
-    public Optional<Order> findById(String orderId);
+    public Optional<Payment> findById(String orderId);
 
     public long count();
 

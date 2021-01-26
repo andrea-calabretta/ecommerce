@@ -3,26 +3,26 @@ package payment.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import payment.model.Order;
-import payment.repository.OrderRepository;
+import payment.model.Payment;
+import payment.repository.PaymentRepository;
 
 import java.util.Optional;
 
 @Service
 @Transactional
-public class OrderService implements ServiceInterface {
+public class PaymentService implements ServiceInterface {
     @Autowired
-    OrderRepository orderRepository;
+    PaymentRepository orderRepository;
 
     @Override
-    public Iterable<Order> findAll() { return orderRepository.findAll(); }
+    public Iterable<Payment> findAll() { return orderRepository.findAll(); }
 
     @Override
-    public Order save(Order order) { return orderRepository.save(order); }
+    public Payment save(Payment payment) { return orderRepository.save(payment); }
 
 
     @Override
-    public Optional<Order> findById(String orderId) { return orderRepository.findById(orderId); }
+    public Optional<Payment> findById(String orderId) { return orderRepository.findById(orderId); }
 
     @Override
     public long count() {

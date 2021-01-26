@@ -9,25 +9,25 @@ import java.math.BigDecimal;
 
 
 @Document
-public class Order {
+public class Payment {
 
     @Id
     private String orderId;
     private Integer userId;
     private BigDecimal amountPaid;
     private long unix_creation_ts;
-    private long unix_update_ts;
+
 
     @JsonCreator
-    public Order(String orderId, Integer userId, BigDecimal amountPaid, long unix_creation_ts, long unix_update_ts) {
+    public Payment(String orderId, Integer userId, BigDecimal amountPaid, long unix_creation_ts) {
         this.orderId = orderId;
         this.userId = userId;
         this.amountPaid = amountPaid;
         this.unix_creation_ts = unix_creation_ts;
-        this.unix_update_ts = unix_update_ts;
+
     }
 
-    public Order(){
+    public Payment(){
 
     }
 
@@ -35,7 +35,7 @@ public class Order {
         return orderId;
     }
 
-    public Order setOrderId(String orderId) {
+    public Payment setOrderId(String orderId) {
         this.orderId = orderId;
         return this;
     }
@@ -44,7 +44,7 @@ public class Order {
         return userId;
     }
 
-    public Order setUserId(Integer userId) {
+    public Payment setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -53,7 +53,7 @@ public class Order {
         return amountPaid;
     }
 
-    public Order setAmountPaid(BigDecimal amountPaid) {
+    public Payment setAmountPaid(BigDecimal amountPaid) {
         this.amountPaid = amountPaid;
         return this;
     }
@@ -62,19 +62,11 @@ public class Order {
         return unix_creation_ts;
     }
 
-    public Order setUnix_creation_ts(long unix_creation_ts) {
+    public Payment setUnix_creation_ts(long unix_creation_ts) {
         this.unix_creation_ts = unix_creation_ts;
         return this;
     }
 
-    public long getUnix_update_ts() {
-        return unix_update_ts;
-    }
-
-    public Order setUnix_update_ts(long unix_update_ts) {
-        this.unix_update_ts = unix_update_ts;
-        return this;
-    }
 
     @Override
     public String toString() {
@@ -83,7 +75,6 @@ public class Order {
                 ", userId=" + userId +
                 ", amountPaid=" + amountPaid +
                 ", unix_start_ts=" + unix_creation_ts +
-                ", unix_update_ts=" + unix_update_ts +
                 '}';
     }
 }
