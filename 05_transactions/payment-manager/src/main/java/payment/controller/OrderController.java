@@ -49,6 +49,8 @@ public class OrderController {
     //http://localhost:8088/order/save
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Order save(@RequestBody Order order){
+        order.setUnix_creation_ts(Instant.now().getEpochSecond());
+        order.toString();
         return svc.save(order);
     }
 
@@ -67,6 +69,17 @@ public class OrderController {
         return resPing;
 
     }
+
+    @GetMapping(path = "/transactions/{fromTimestamp}/{endTimestamp}")
+    public @ResponseBody Iterable<Order>
+    getOrderByDate(@PathVariable long fromTimestamp, @PathVariable long endTimestamp, @RequestHeader Integer userId)
+    {
+        Timestamp from = new Timestamp(fromTimestamp);
+        Timestamp end = new Timestamp(endTimestamp);
+        return svc.getOrderByDate(fromTimestamp, endTimestamp);
+
+    }
+
 
 
 
