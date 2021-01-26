@@ -13,7 +13,7 @@ public interface ServiceInterface {
 
     public long count();
 
-    public void removeOrder(String orderId);
+    public void removePayment(String orderId);
 
-//    public Iterable<Order> getOrderByDate(long startTmsp, long endTmsp);
+   public Iterable<Payment> getPaymentByDate(long startTmsp, long endTmsp);
 }

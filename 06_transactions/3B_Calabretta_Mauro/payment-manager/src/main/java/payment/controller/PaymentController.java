@@ -66,6 +66,7 @@ public class PaymentController {
         return svc.save(payment);
     }
 
+    //http://localhost:8088/payment/ping
     @PostMapping(path = "/ping")
     public @ResponseBody
     pingAckBody ping(){
@@ -79,18 +80,14 @@ public class PaymentController {
             resPing.setDbStatus("down");
         }
         return resPing;
-
     }
 
+    //http://localhost:8088/payment/tra
     @GetMapping(path = "/tra")
     public @ResponseBody
-    Iterable <Payment>
-    getOrderByDate()
-    {
-        return svc.findAll();
+    Iterable <Payment> getOrderByDate() { return svc.findAll(); }
 
-    }
-
+    //http://localhost:8088/transactions?fromTimestamp=unixTimestamp1&endTimestamp=unixTimestamp2
     @GetMapping(path = "/transactions")
     public @ResponseBody
     ArrayList <Payment>
@@ -98,26 +95,8 @@ public class PaymentController {
                    @RequestParam long endTimestamp,
                    @RequestHeader Integer userId) throws Exception
     {
-        if (userId == 0){
-            ArrayList<Payment> payments_tot= (ArrayList<Payment>) svc.findAll();
-            ArrayList<Payment> payments_filtered = new ArrayList<>();
-            for (int i = 0; i< payments_tot.size(); i++)
-            {
-                if (payments_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
-                        payments_tot.get(i).getUnix_creation_ts() <= endTimestamp)
-                {
-                    payments_filtered.add(payments_tot.get(i));
-                }
-            }
-            return payments_filtered;
-        }
+        if (userId == 0) return svc.getPaymentByDate(fromTimestamp, endTimestamp);
         else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED) ;
 
-
     }
-
-
-
-
-
 }
