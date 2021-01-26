@@ -3,10 +3,12 @@ package payment.controller;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import payment.data.OrderUpdateRequest;
 import payment.healthCheck.pingAckBody;
 import payment.model.Order;
@@ -83,19 +85,23 @@ public class OrderController {
     ArrayList <Order>
     getOrderByDate(@RequestParam long fromTimestamp,
                    @RequestParam long endTimestamp,
-                   @RequestHeader Integer userId)
+                   @RequestHeader Integer userId) throws Exception
     {
-        ArrayList<Order> orders_tot= (ArrayList<Order>) svc.findAll();
-        ArrayList<Order> orders_filtered = new ArrayList<>();
-        for (int i = 0; i< orders_tot.size(); i++)
-        {
-            if (orders_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
-             orders_tot.get(i).getUnix_creation_ts() <= endTimestamp)
+        if (userId == 0){
+            ArrayList<Order> orders_tot= (ArrayList<Order>) svc.findAll();
+            ArrayList<Order> orders_filtered = new ArrayList<>();
+            for (int i = 0; i< orders_tot.size(); i++)
             {
-                orders_filtered.add(orders_tot.get(i));
+                if (orders_tot.get(i).getUnix_creation_ts() >= fromTimestamp &&
+                        orders_tot.get(i).getUnix_creation_ts() <= endTimestamp)
+                {
+                    orders_filtered.add(orders_tot.get(i));
+                }
             }
+            return orders_filtered;
         }
-        return orders_filtered;
+        else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED) ;
+
 
     }
 
