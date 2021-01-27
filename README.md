@@ -26,11 +26,41 @@ Come da specifiche di progetto, è stata realizzata una classe PaymentController
 - GET /payment/transactions
 
 Il primo è utilizzato per simulare l'invio di un pagamento, ovvero una API POST contenente i parametri userId, orderId, amountPaid e timestamp relativi all'ordine.
-Tramite la funzione "add" implementata all'interno del controller e i metodi get e set della classe Payment, tutti i valori saranno inseriti in un json tramite .toJson(updateRequest). updateRequest è un parametro di tipo PaymentUpdateRequest ovvero la classe che estende Payment.   
+Tramite la funzione "add" implementata all'interno del controller e i metodi get e set della classe Payment, tutti i valori saranno inseriti in un json tramite .toJson(updateRequest). 
+updateRequest è un parametro di tipo PaymentUpdateRequest ovvero una classe che estende Payment.   
 
 ``` JSON
-{inserisci json
+{ 
+  "orderId": "2",
+    "userId": 0,
+    "amountPaid": 4844,
+    "unix_creation_ts": 1611659261,
+    "unix_update_ts": 0
 }
+```
+
+L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} restituisce gli elementi con userId -passato come header della request- uguale a 0, e soltanto all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp.
+
+``` JSON
+
+{
+        "orderId": "2",
+        "userId": 0,
+        "amountPaid": 4664242,
+        "unix_creation_ts": 1611691838
+    },
+    {
+        "orderId": "3",
+        "userId": 0,
+        "amountPaid": 4664242,
+        "unix_creation_ts": 1611691857
+    },
+    {
+        "orderId": "4",
+        "userId": 0,
+        "amountPaid": 4664242,
+        "unix_creation_ts": 1611691869
+    }
 ```
 
 
