@@ -1,6 +1,8 @@
 package payment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import payment.model.Payment;
@@ -14,6 +16,22 @@ import java.util.Optional;
 public class PaymentService implements ServiceInterface {
     @Autowired
     PaymentRepository orderRepository;
+
+    @Value("${kafkaOrdersTopic}")
+    private String topic;
+
+    @Value("${kafkaErrorTopic}")
+    private String topicError;
+
+    @Autowired
+    private KafkaTemplate<String, String> template;
+
+    public void sendMessage(String msg){
+        template.send(topic, msg);
+    }
+    public void sendError(String msg){
+        template.send(topicError, msg);
+    }
 
     @Override
     public Iterable<Payment> findAll() { return orderRepository.findAll(); }
@@ -34,7 +52,7 @@ public class PaymentService implements ServiceInterface {
     public void removePayment(String orderId) { orderRepository.deleteById(orderId);}
 
     @Override
-    public ArrayList<Payment> getPaymentByDate(long startTmsp, long endTmsp) {
+    public ArrayList<Payment> getTransactions(long startTmsp, long endTmsp) {
         ArrayList<Payment> payments_tot= (ArrayList<Payment>) findAll();
         ArrayList<Payment> payments_filtered = new ArrayList<>();
         for (int i = 0; i< payments_tot.size(); i++)

@@ -2,10 +2,8 @@ package payment.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,21 +21,6 @@ public class PaymentController {
     @Autowired
     PaymentService svc;
 
-    @Value("${kafkaTopic}")
-    private String topic;
-
-    @Value("${kafkaError}")
-    private String topicError;
-
-    @Autowired
-    private KafkaTemplate<String, String> template;
-
-    public void sendMessage(String msg){
-        template.send(topic, msg);
-    }
-    public void sendError(String msg){
-        template.send(topicError, msg);
-    }
 
     //http://localhost:8088/payment/ipn
     @PostMapping(path = "/ipn", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,7 +33,7 @@ public class PaymentController {
                     .setUserId(payment.getUserId())
                     .setAmountPaid(payment.getAmountPaid())
                     .setUnix_creation_ts(Instant.now().getEpochSecond());
-            sendMessage(new Gson().toJson(updateRequest));
+            svc.sendMessage(new Gson().toJson(updateRequest));
             return updateRequest;
         }catch (Exception e){
 
@@ -71,9 +54,9 @@ public class PaymentController {
     public @ResponseBody
     pingAckBody ping(){
         pingAckBody resPing = new pingAckBody("up");
-        // facciamo un check al db
+        // let's check db first
         try {
-            svc.count(); //query di prova che restitusce il numero di collections presenti nel DB
+            svc.count(); //simple query to count n° of collections in db, if the db is not reachable it will cause an exception (that's what we are really interested in)
             resPing.setDbStatus("up");
         }catch (Exception e){
             System.out.println("MongoDB not reachable. " + "code :" + e.getMessage());
@@ -95,8 +78,8 @@ public class PaymentController {
                    @RequestParam long endTimestamp,
                    @RequestHeader Integer userId) throws Exception
     {
-        if (userId == 0) return svc.getPaymentByDate(fromTimestamp, endTimestamp);
-        else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED) ;
 
+        if (userId == 0) return svc.getTransactions(fromTimestamp, endTimestamp);
+        else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED) ;
     }
 }
