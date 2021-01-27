@@ -18,7 +18,7 @@ public class PaymentService implements ServiceInterface {
     PaymentRepository orderRepository;
 
     @Value("${kafkaOrdersTopic}")
-    private String topic;
+    private String topicOrder;
 
     @Value("${kafkaErrorTopic}")
     private String topicError;
@@ -27,7 +27,7 @@ public class PaymentService implements ServiceInterface {
     private KafkaTemplate<String, String> template;
 
     public void sendMessage(String msg){
-        template.send(topic, msg);
+        template.send(topicOrder, msg);
     }
     public void sendError(String msg){
         template.send(topicError, msg);

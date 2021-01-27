@@ -2,15 +2,18 @@ package payment.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import payment.data.PaymentUpdateRequest;
 import payment.healthCheck.pingAckBody;
 import payment.model.Payment;
 import payment.service.PaymentService;
+import javax.validation.Valid;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class PaymentController {
     //http://localhost:8088/payment/ipn
     @PostMapping(path = "/ipn", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    Payment add(@RequestBody Payment payment) throws Exception{
+    Payment add(@Valid @RequestBody Payment payment){
 
         try {
             PaymentUpdateRequest updateRequest = (PaymentUpdateRequest) new PaymentUpdateRequest()
@@ -33,11 +36,12 @@ public class PaymentController {
                     .setUserId(payment.getUserId())
                     .setAmountPaid(payment.getAmountPaid())
                     .setUnix_creation_ts(Instant.now().getEpochSecond());
+
+            //AGGIUNGI IL PAGAMENTO AL DB
             svc.sendMessage(new Gson().toJson(updateRequest));
             return updateRequest;
-        }catch (Exception e){
-
-            throw new ResponseStatusException(HttpStatus.MULTI_STATUS) ;
+        }catch (DataIntegrityViolationException e ){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "500 ERRORACCIO") ;
         }
     }
 

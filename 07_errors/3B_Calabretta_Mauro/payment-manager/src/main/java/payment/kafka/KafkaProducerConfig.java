@@ -20,8 +20,12 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapserver;
 
-    @Value("${kafkaTopic}")
-    private String topic;
+    @Value("${kafkaOrdersTopic}")
+    private String topicOrder;
+
+    @Value("${kafkaErrorTopic}")
+    private String topicError;
+
 
     public Map<String, Object> producerConfig() {
         Map<String, Object> prop = new HashMap<>();
@@ -39,8 +43,13 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public NewTopic topic(){
-        return TopicBuilder.name(topic).build();
+    public NewTopic topicOrder(){
+        return TopicBuilder.name(topicOrder).build();
+    }
+
+    @Bean
+    public NewTopic topicError(){
+        return TopicBuilder.name(topicError).build();
     }
 
     @Bean
