@@ -1,9 +1,5 @@
 package payment.kafka;
 
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
-
-import java.time.Instant;
-
 public class KafkaMsg {
     private String key;
     private KafkaHttpValue value;

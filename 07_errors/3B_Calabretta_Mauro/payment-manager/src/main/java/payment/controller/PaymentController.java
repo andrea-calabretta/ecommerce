@@ -1,9 +1,7 @@
 package payment.controller;
 
 import com.google.gson.Gson;
-import org.relaxng.datatype.DatatypeException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
