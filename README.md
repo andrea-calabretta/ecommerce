@@ -1,9 +1,7 @@
 # Distributed Systems & Big Data 2020/2021 - Progetto 3B - Calabretta-Mauro
-### (considerare solo il brach "main", ignorare il branch "ale")
+<br />
 
-
-
-## Relazione finale
+## Relazione finale          (considerare solo il brach "main", ignorare il branch "ale")
 
 ### 1. Introduzione
 Nella realizzazione di un sistema “e-commerce” distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B. 
