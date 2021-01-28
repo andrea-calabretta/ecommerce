@@ -12,7 +12,7 @@ Come da specifiche di progetto, le tecnologie utilizzate sono :
 
 Tramite Docker, vengono generati 4 container rispettivamente per la gestione di mongodb, del micro-servizio payment-manager, del broker kafka e di zookeeper.
 
-Per avviare il progetto è verificarne le principali funzionalità è consigliabile visionare questo breve video di 4 minuti:   https://youtu.be/Uls36uPjKD8
+Per avviare il progetto è verificarne le principali funzionalità è consigliabile visionare questo breve video di 3 minuti:   https://youtu.be/dhuKJxQmh1w
 
 ### 2. Diagramma delle classi
 
