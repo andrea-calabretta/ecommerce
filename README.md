@@ -73,10 +73,26 @@ Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromT
 ![transactions](img/Transaction_seq_diagram.jpg)
 
 
-### 4. Controller - Error handling
+### 4. Errori
 
-All'interno del controller è stato inoltre implementato il meccanismo per la gestione degli errori.
-Come da specifiche, al fallimento della richiesta HTTP, il micro-servizio deve pubblicare il messaggio all'interno del topic "logging" di Kafka; questo è stato realizzato
+E' stato implementato il meccanismo per la gestione degli errori facendo uno della notazione @ControllerAdvice che permette di gestire le eccezioni che si verificano non solo in uno specifico Controller in tutta l'applicazione.
+Possiamo intenderlo come un intercettatore di eccezioni generate da qualunque metodo che abbia notiazione:  @RequestMapping, @GetMapping, @PostMapping, @PutMapping e così via.
+
+Anche la classe relativa alla gestione delle ecczioni (HttpExceptionHandler) fa utilizzo della coda Kafka per tenere traccia degli errori sull'apposito topic "logging"
+
+Il formato del messaggio scritto su Kafka, come da specifiche rispetta il seguente formato:
+
+```
+ key = http_errors
+ value = {
+     timestamp: UnixTimestamp,
+     sourceIp: sourceIp,
+     service: payments,
+     request: path + method
+     error: error
+}
+```
+
 
 ### 5. Ping Ack
 
