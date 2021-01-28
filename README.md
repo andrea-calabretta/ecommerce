@@ -78,7 +78,7 @@ Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromT
 All'interno del controller è stato inoltre implementato il meccanismo per la gestione degli errori.
 Come da specifiche, al fallimento della richiesta HTTP, il micro-servizio deve pubblicare il messaggio all'interno del topic "logging" di Kafka; questo è stato realizzato
 
-### 5. Kafka e Ping Ack
+### 5. Ping Ack
 
 La strategia di Health-Check utilizzata è Ping Ack.
 Ecco il diagramma di sequenza che ne descrive il funzionamento:
