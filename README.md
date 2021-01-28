@@ -5,7 +5,7 @@
 
 ### 1. Introduzione
 Nella realizzazione di un sistema “e-commerce" distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B con database Mongo. 
-Come da specifiche di progetto, le tecnologie utilizzate sono : 
+Le tecnologie utilizzate sono : 
 - **Database non relazionale -MongoDB-** 
 - **Java Spring MVC**
 - **Spring Data MongoDB**
@@ -28,8 +28,8 @@ Come da specifiche di progetto, è stata realizzata una classe PaymentController
 - POST /payment/ipn
 - GET /payment/transactions
 
-Il primo è utilizzato per simulare l'invio di un pagamento, ovvero una API POST contenente i parametri userId, orderId, amountPaid e timestamp relativi all'ordine.
-Il risultato dell'operazione è che un json di questo tipo, viene sia salvato sul database Mongo e che memorizzato nella coda Kafka sul topic orders (nel formato descritto dalle specifiche)
+Il primo: "/payment/ipn" è utilizzato per simulare l'invio di un pagamento.
+Il risultato dell'operazione è che viene salvato sul database Mongo e inoltre memorizzato nella coda Kafka sul topic orders, un oggetto payment di questo tipo:
 
 ``` JSON
  {
@@ -44,7 +44,7 @@ Ecco il diagramma di sequenza che descrive il funzionamento dell'entrypoint /pay
 
 ![ipn](img/ipn_seq_diagram.jpg)
 
-Invece, l'entrypoint /transactions?fromTimestamp=timestamp1&Timestamp=timestamp2 restituisce le transazioni effettuate o all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
+Invece, l'entrypoint /transactions?fromTimestamp=timestamp1&Timestamp=timestamp2 restituisce le transazioni effettuate all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
 
 ``` JSON
 {
@@ -76,12 +76,12 @@ Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromT
 
 ### 4. Errori
 
-E' stato implementato il meccanismo per la gestione degli errori facendo uno della notazione @ControllerAdvice che permette di gestire le eccezioni che si verificano non solo in uno specifico Controller in tutta l'applicazione.
-Possiamo intenderlo come un intercettatore di eccezioni generate da qualunque metodo che abbia notiazione:  @RequestMapping, @GetMapping, @PostMapping, @PutMapping e così via.
+E' stato implementato il meccanismo per la gestione degli errori facendo uso della notazione @ControllerAdvice che permette di gestire le eccezioni che si verificano non solo in uno specifico Controller ma in tutta l'applicazione.
+Possiamo intenderlo come un intercettatore di eccezioni generate da qualunque metodo che abbia notazione:  @RequestMapping, @GetMapping, @PostMapping, @PutMapping e così via.
 
-Anche la classe relativa alla gestione delle ecczioni (HttpExceptionHandler) fa utilizzo della coda Kafka per tenere traccia degli errori sull'apposito topic "logging"
+Anche la classe relativa alla gestione delle eccezioni (HttpExceptionHandler) fa utilizzo della coda Kafka per tenere traccia degli errori sull'apposito topic "logging"
 
-Il formato del messaggio scritto su Kafka, come da specifiche rispetta il seguente formato:
+Il formato del messaggio scritto su Kafka, presenta il seguente formato:
 
 ```
  key = http_errors
