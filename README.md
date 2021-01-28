@@ -99,7 +99,7 @@ Il formato del messaggio scritto su Kafka, come da specifiche rispetta il seguen
 
 ### 5. Ping Ack
 
-La strategia di Health-Check utilizzata è Ping Ack.
+La strategia di Health-Check utilizzata è Ping Ack ed è finalizzato a verificare che il database sia raggiungibile e che il microservizio sia in esecuzione.
 Ecco il diagramma di sequenza che ne descrive il funzionamento:
 
 ![PingAck](img/PingAck_seq_diagram.jpg)
