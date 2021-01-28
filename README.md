@@ -9,9 +9,9 @@ Come da specifiche di progetto, le tecnologie utilizzate sono :
 - **Java Spring MVC**
 - **Spring Data MongoDB**
 
-Tramite la piattaforma PaaS Docker, sono stati generati 4 container rispettivamente per la gestione di mongodb, del micro-servizio payment_manager, del broker kafka e di zookeeper.
+Tramite Docker, vengono generati 4 container rispettivamente per la gestione di mongodb, del micro-servizio payment-manager, del broker kafka e di zookeeper.
 
-Per avviare il progetto è possibile seguire questo breve video: "link".
+Per avviare il progetto è verificarne le principali funzionalità è consigliabile visionare questo breve video di 4 minuti:   https://youtu.be/Uls36uPjKD8
 
 ### 2. Diagramma delle classi
 
