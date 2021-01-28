@@ -15,6 +15,8 @@ Per avviare il progetto è verificarne le principali funzionalità è consigliab
 
 ### 2. Diagramma delle classi
 
+Ecco il diagramma delle classi principali:
+
 ![ClassDiagram](img/Class_Diagram.jpg)
 
 
@@ -36,6 +38,10 @@ Il risultato dell'operazione è che un json di questo tipo, viene sia salvato su
      "timestamp": 1611858477
  }
 ```
+
+Ecco il diagramma di sequenza che descrive il funzionamento dell'entrypoint /payment/ipn  :
+
+![ipn](img/ipn_seq_diagram.jpg)
 
 L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} invece, restituisce le transazioni effettuate o all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
 
@@ -71,5 +77,6 @@ Come da specifiche, al fallimento della richiesta HTTP, il micro-servizio deve p
 ### 5. Kafka e Ping Ack
 
 La strategia di Health-Check utilizzata è Ping Ack.
+Ecco il diagramma di sequenza che ne descrive il funzionamento:
 
 ![PingAck](img/PingAck_seq_diagram.jpg)
