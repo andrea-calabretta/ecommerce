@@ -20,7 +20,7 @@ Ecco il diagramma delle classi principali:
 ![ClassDiagram](img/Class_Diagram.jpg)
 
 
-### 3. Controller - Entrypoint
+### 3. Controller - Entrypoints
 
 Come da specifiche di progetto, è stata realizzata una classe PaymentController con l'annotation @Controller che espone i due entrypoint:
 
