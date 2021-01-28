@@ -1,10 +1,10 @@
 package payment.kafka;
 
-public class KafkaMsg {
+public class KafkaHttpMsg {
     private String key;
     private KafkaHttpValue value;
 
-    public KafkaMsg(String key) {
+    public KafkaHttpMsg(String key) {
         this.key = key;
     }
 
@@ -12,7 +12,7 @@ public class KafkaMsg {
         return key;
     }
 
-    public KafkaMsg setKey(String key) {
+    public KafkaHttpMsg setKey(String key) {
         this.key = key;
         return this;
     }
@@ -22,7 +22,7 @@ public class KafkaMsg {
         return value;
     }
 
-    public KafkaMsg setValue(KafkaHttpValue value) {
+    public KafkaHttpMsg setValue(KafkaHttpValue value) {
         this.value = value;
         return this;
     }

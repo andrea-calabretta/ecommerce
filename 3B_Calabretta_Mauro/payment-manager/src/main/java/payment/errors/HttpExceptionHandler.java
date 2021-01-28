@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import payment.kafka.KafkaHttpValue;
-import payment.kafka.KafkaMsg;
+import payment.kafka.KafkaHttpMsg;
 import payment.service.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +52,7 @@ public class HttpExceptionHandler {
         {
             httpVal.setError(String.valueOf(ex.getStatus().value()));
         }
-        KafkaMsg msg = new KafkaMsg("http_errors");
+        KafkaHttpMsg msg = new KafkaHttpMsg("http_errors");
         msg.setValue(httpVal);
         svc.sendError((new Gson().toJson(msg)));
         return  new ResponseEntity<Object>(new ResponseMsg(ex.getStatus().value(),
@@ -67,7 +67,7 @@ public class HttpExceptionHandler {
         httpVal.setService("payments");
         httpVal.setRequest(req.getRequestURI() + " " + req.getMethod());
         httpVal.setError("404");
-        KafkaMsg msg = new KafkaMsg("http_errors");
+        KafkaHttpMsg msg = new KafkaHttpMsg("http_errors");
         msg.setValue(httpVal);
         svc.sendError((new Gson().toJson(msg)));
         res.sendError(HttpServletResponse.SC_NOT_FOUND);

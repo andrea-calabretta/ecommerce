@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import payment.kafka.KafkaPayMsg;
 import payment.kafka.KafkaPaymentUpdate;
 import payment.healthCheck.pingAckBody;
 import payment.model.Payment;
@@ -47,12 +48,14 @@ public class PaymentController {
             payment.setTimestamp(Instant.now().getEpochSecond());
             svc.save(payment);
             //save on topic orders in Kafka
-            KafkaPaymentUpdate updateRequest = (KafkaPaymentUpdate) new KafkaPaymentUpdate()
+            KafkaPaymentUpdate orderPaid = (KafkaPaymentUpdate) new KafkaPaymentUpdate()
                     .setOrderId(payment.getOrderId())
                     .setUserId(payment.getUserId())
                     .setAmountPaid(payment.getAmountPaid())
                     .setTimestamp(payment.getTimestamp());
-            svc.sendMessage(new Gson().toJson(updateRequest));
+            KafkaPayMsg msg = new KafkaPayMsg("order_paid");
+            msg.setValue(orderPaid);
+            svc.sendMessage(new Gson().toJson(msg));
             return payment;
         }catch (Exception e ){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR) ;
