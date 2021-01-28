@@ -35,11 +35,4 @@ public class pingAckBody {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "pingAckBody{" +
-                "serviceStatus='" + serviceStatus + '\'' +
-                ", dbStatus='" + dbStatus + '\'' +
-                '}';
-    }
 }

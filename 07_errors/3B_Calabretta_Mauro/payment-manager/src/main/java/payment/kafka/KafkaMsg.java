@@ -1,8 +1,16 @@
 package payment.kafka;
 
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+
+import java.time.Instant;
+
 public class KafkaMsg {
     private String key;
-    private KafkaValue value;
+    private KafkaHttpValue value;
+
+    public KafkaMsg(String key) {
+        this.key = key;
+    }
 
     public String getKey() {
         return key;
@@ -13,11 +21,12 @@ public class KafkaMsg {
         return this;
     }
 
-    public KafkaValue getValue() {
+
+    public KafkaHttpValue getValue() {
         return value;
     }
 
-    public KafkaMsg setValue(KafkaValue value) {
+    public KafkaMsg setValue(KafkaHttpValue value) {
         this.value = value;
         return this;
     }

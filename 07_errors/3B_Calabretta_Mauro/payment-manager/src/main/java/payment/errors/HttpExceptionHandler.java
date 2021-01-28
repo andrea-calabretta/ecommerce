@@ -3,10 +3,8 @@ package payment.errors;
 import com.google.gson.Gson;
 import com.mongodb.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.logging.Logger;
 
 
 /*
@@ -32,57 +29,48 @@ The @ControllerAdvice annotation  allows you to handle exceptions across the who
 */
 @ControllerAdvice
 public class HttpExceptionHandler {
-//    @Autowired
-//    private  KafkaTemplate <String, String> kafkaTemplate;
-//
+
     @Autowired
     PaymentService svc;
 
-
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<?> generateHttpErrorMessage(HttpServletRequest request, ResponseStatusException ex)
+    public ResponseEntity<?> generateHttpErrorMessage(HttpServletRequest req, ResponseStatusException ex)
     {
-        KafkaHttpValue value = new KafkaHttpValue();
-        value.setTs(System.currentTimeMillis());
-        value.setSourceIp(request.getRemoteAddr());
-        value.setService("Payment_Service");
-        value.setRequest(request.getRequestURI() + " " + request.getMethod());
+        KafkaHttpValue httpVal = new KafkaHttpValue();
+        httpVal.setSourceIp(req.getRemoteAddr());
+        httpVal.setService("payments");
+        httpVal.setRequest(req.getRequestURI() + " " + req.getMethod());
 
         if(ex.getStatus().is5xxServerError()){
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             ex.printStackTrace(pw);
             String stacktrace = sw.toString();
-            value.setError(stacktrace);
+            httpVal.setError(stacktrace);
         }
         if(ex.getStatus().is4xxClientError())
         {
-            value.setError(String.valueOf(ex.getStatus().value()));
+            httpVal.setError(String.valueOf(ex.getStatus().value()));
         }
-        KafkaMsg msg = new KafkaMsg();
-        msg.setValue(value);
-        msg.setKey("http_error");
+        KafkaMsg msg = new KafkaMsg("http_errors");
+        msg.setValue(httpVal);
         svc.sendError((new Gson().toJson(msg)));
-//        kafkaTemplate.send(topicErrors, (new Gson().toJson(msg)));
-        return  new ResponseEntity<Object>(new ReturnMsg(ex.getStatus().value(),
-                ex.getStatus().getReasonPhrase(), ex.getReason(), request.getRequestURI()),
+        return  new ResponseEntity<Object>(new ResponseMsg(ex.getStatus().value(),
+                ex.getStatus().getReasonPhrase(), ex.getReason(), req.getRequestURI()),
                 new HttpHeaders(), ex.getStatus());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ModelAndView throwHttpNotFound(NoHandlerFoundException ex, HttpServletRequest request, HttpServletResponse response, @Nullable Object handler) throws IOException{
-        KafkaHttpValue value = new KafkaHttpValue();
-        value.setTs(System.currentTimeMillis());
-        value.setSourceIp(request.getRemoteAddr());
-        value.setService("Payment_Service");
-        value.setRequest(request.getRequestURI() + " " + request.getMethod());
-        value.setError("404");
-        KafkaMsg msg = new KafkaMsg();
-        msg.setValue(value);
-        msg.setKey("http_error");
+    public ModelAndView throwHttpNotFound(NoHandlerFoundException ex, HttpServletRequest req, HttpServletResponse res, @Nullable Object handler) throws IOException{
+        KafkaHttpValue httpVal = new KafkaHttpValue();
+        httpVal.setSourceIp(req.getRemoteAddr());
+        httpVal.setService("payments");
+        httpVal.setRequest(req.getRequestURI() + " " + req.getMethod());
+        httpVal.setError("404");
+        KafkaMsg msg = new KafkaMsg("http_errors");
+        msg.setValue(httpVal);
         svc.sendError((new Gson().toJson(msg)));
-//        kafkaTemplate.send(topicErrors,(new Gson().toJson(msg)));
-        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        res.sendError(HttpServletResponse.SC_NOT_FOUND);
         return new ModelAndView();
     }
 

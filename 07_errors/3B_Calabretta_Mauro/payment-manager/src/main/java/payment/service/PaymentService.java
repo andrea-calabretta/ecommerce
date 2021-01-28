@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import payment.model.Payment;
 import payment.repository.PaymentRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -53,14 +54,14 @@ public class PaymentService implements ServiceInterface {
 
     @Override
     public ArrayList<Payment> getTransactions(long startTmsp, long endTmsp) {
-        ArrayList<Payment> payments_tot= (ArrayList<Payment>) findAll();
+        ArrayList<Payment> payments_all= (ArrayList<Payment>) findAll();
         ArrayList<Payment> payments_filtered = new ArrayList<>();
-        for (int i = 0; i< payments_tot.size(); i++)
+        for (int i = 0; i< payments_all.size(); i++)
         {
-            if (payments_tot.get(i).getUnix_creation_ts() >= startTmsp &&
-                    payments_tot.get(i).getUnix_creation_ts() <= endTmsp)
+            if (payments_all.get(i).getUnix_creation_ts(Instant.now().getEpochSecond()) >= startTmsp &&
+                    payments_all.get(i).getUnix_creation_ts(Instant.now().getEpochSecond()) <= endTmsp)
             {
-                payments_filtered.add(payments_tot.get(i));
+                payments_filtered.add(payments_all.get(i));
             }
         }
         return payments_filtered;

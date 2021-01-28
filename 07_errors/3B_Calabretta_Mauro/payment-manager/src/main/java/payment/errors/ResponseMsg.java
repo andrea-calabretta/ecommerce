@@ -1,30 +1,28 @@
+
 package payment.errors;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-public class ReturnMsg {
-    private LocalDateTime timestamp;
+public class ResponseMsg {
+    private long timestamp;
     private Integer status;
     private String error;
     private String message;
     private String path;
 
-    public ReturnMsg(LocalDateTime timestamp, Integer status, String error, String message, String path) {
-        this.timestamp = LocalDateTime.now();
+    public ResponseMsg(Integer status, String error, String message, String path) {
+        this.timestamp = Instant.now().getEpochSecond();
         this.status = status;
         this.error = error;
         this.message = message;
         this.path = path;
     }
 
-    public ReturnMsg(int value, String reasonPhrase, String reason, String requestURI) {
-    }
-
-    public LocalDateTime getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public ReturnMsg setTimestamp(LocalDateTime timestamp) {
+    public ResponseMsg setTimestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -33,7 +31,7 @@ public class ReturnMsg {
         return status;
     }
 
-    public ReturnMsg setStatus(Integer status) {
+    public ResponseMsg setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -42,7 +40,7 @@ public class ReturnMsg {
         return error;
     }
 
-    public ReturnMsg setError(String error) {
+    public ResponseMsg setError(String error) {
         this.error = error;
         return this;
     }
@@ -51,7 +49,7 @@ public class ReturnMsg {
         return message;
     }
 
-    public ReturnMsg setMessage(String message) {
+    public ResponseMsg setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -60,8 +58,9 @@ public class ReturnMsg {
         return path;
     }
 
-    public ReturnMsg setPath(String path) {
+    public ResponseMsg setPath(String path) {
         this.path = path;
         return this;
     }
 }
+

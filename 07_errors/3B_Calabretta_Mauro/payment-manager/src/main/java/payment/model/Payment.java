@@ -58,23 +58,12 @@ public class Payment {
         return this;
     }
 
-    public long getUnix_creation_ts() {
+    public long getUnix_creation_ts(long epochSecond) {
         return unix_creation_ts;
     }
 
     public Payment setUnix_creation_ts(long unix_creation_ts) {
         this.unix_creation_ts = unix_creation_ts;
         return this;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", userId=" + userId +
-                ", amountPaid=" + amountPaid +
-                ", unix_start_ts=" + unix_creation_ts +
-                '}';
     }
 }
