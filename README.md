@@ -1,74 +1,111 @@
-# Distributed Systems & Big Data 2020/2021 - Progetto 3B - Calabretta-Mauro 
+# Distributed Systems & Big Data 2020/2021 - Progetto 3B - Calabretta-Mauro
+<br />
 
-## Relazione finale
+## Relazione finale          (considerare solo il brach "main", ignorare il branch "ale")
 
 ### 1. Introduzione
-Nella realizzazione di un sistema “e-commerce” distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B. 
-Come da specifiche di progetto, le tecnologie utilizzate sono : 
+Nella realizzazione di un sistema “e-commerce" distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B con database Mongo. 
+Le tecnologie utilizzate sono : 
 - **Database non relazionale -MongoDB-** 
 - **Java Spring MVC**
 - **Spring Data MongoDB**
 
-Tramite la piattaforma PaaS Docker, sono stati generati 4 container rispettivamente per la gestione di mongodb, del micro-servizio payment_manager, del broker kafka e di zookeeper.
+Tramite Docker, vengono generati 4 container rispettivamente per la gestione di mongodb, del micro-servizio payment-manager, del broker kafka e di zookeeper.
 
-Per avviare il progetto è possibile seguire questo breve video: "link".
+Per avviare il progetto è verificarne le principali funzionalità è consigliabile visionare questo breve video di 3 minuti:   https://youtu.be/dhuKJxQmh1w
 
 ### 2. Diagramma delle classi
 
-Inserisci immagine
+Ecco il diagramma delle classi principali:
+
+![ClassDiagram](img/Class_Diagram.jpg)
 
 
-### 3. Controller - Entrypoint
+### 3. Controller - Entrypoints
 
 Come da specifiche di progetto, è stata realizzata una classe PaymentController con l'annotation @Controller che espone i due entrypoint:
 
 - POST /payment/ipn
 - GET /payment/transactions
 
-Il primo è utilizzato per simulare l'invio di un pagamento, ovvero una API POST contenente i parametri userId, orderId, amountPaid e timestamp relativi all'ordine.
-Tramite la funzione "add" implementata all'interno del controller e i metodi get e set della classe Payment, tutti i valori saranno inseriti in un json tramite .toJson(updateRequest). 
-updateRequest è un parametro di tipo PaymentUpdateRequest ovvero una classe che estende Payment.   
+Il primo: "/payment/ipn" è utilizzato per simulare l'invio di un pagamento.
+Il risultato dell'operazione è che viene salvato sul database Mongo e inoltre memorizzato nella coda Kafka sul topic orders, un oggetto payment di questo tipo:
 
 ``` JSON
-{ 
-  "orderId": "2",
-    "userId": 0,
-    "amountPaid": 4844,
-    "unix_creation_ts": 1611659261,
-    "unix_update_ts": 0
+ {
+     "orderId": "0015",
+     "userId": 2,
+     "amountPaid": 2000,
+     "timestamp": 1611858477
+ }
+```
+
+Ecco il diagramma di sequenza che descrive il funzionamento dell'entrypoint /payment/ipn  :
+
+![ipn](img/ipn_seq_diagram.jpg)
+
+Invece, l'entrypoint /transactions?fromTimestamp=timestamp1&Timestamp=timestamp2 restituisce le transazioni effettuate all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
+
+``` JSON
+{
+   {
+     "orderId": "0013",
+     "userId": 2,
+     "amountPaid": 2500,
+     "timestamp": 1611856883
+   },
+   {
+     "orderId": "0014",
+     "userId": 4,
+     "amountPaid": 1000,
+     "timestamp": 1611857573
+    },
+    {
+     "orderId": "0015",
+     "userId": 1,
+     "amountPaid": 750,
+     "timestamp": 1611858477
+    }
 }
 ```
 
-L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} restituisce gli elementi con userId -passato come header della request- uguale a 0, e soltanto all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp.
+Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromTimestamp=timestamp1&Timestamp=timestamp2   :
 
-``` JSON
+![transactions](img/Transaction_seq_diagram.jpg)
 
-{
-        "orderId": "2",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691838
-    },
-    {
-        "orderId": "3",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691857
-    },
-    {
-        "orderId": "4",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691869
-    }
+
+### 4. Errori
+
+E' stato implementato il meccanismo per la gestione degli errori facendo uso della notazione @ControllerAdvice che permette di gestire le eccezioni che si verificano non solo in uno specifico Controller ma in tutta l'applicazione.
+Possiamo intenderlo come un intercettatore di eccezioni generate da qualunque metodo che abbia notazione:  @RequestMapping, @GetMapping, @PostMapping, @PutMapping e così via.
+
+Anche la classe relativa alla gestione delle eccezioni (HttpExceptionHandler) fa utilizzo della coda Kafka per tenere traccia degli errori sull'apposito topic "logging"
+
+Il formato del messaggio scritto su Kafka, presenta il seguente formato:
+
+```
+ key = http_errors
+ value = {
+     timestamp: UnixTimestamp,
+     sourceIp: sourceIp,
+     service: payments,
+     request: path + method
+     error: error
+}
 ```
 
 
-### 4. Controller - Error handling
+### 5. Ping Ack
 
-All'interno del controller è stato inoltre implementato il meccanismo per la gestione degli errori.
-Come da specifiche, al fallimento della richiesta HTTP, il micro-servizio deve pubblicare il messaggio all'interno del topic "logging" di Kafka; questo è stato realizzato
+La strategia di Health-Check utilizzata è Ping Ack ed è finalizzato a verificare che il database sia raggiungibile e che il microservizio sia in esecuzione.
+Ecco il diagramma di sequenza che ne descrive il funzionamento:
 
-### 5. Kafka e Ping Ack
+![PingAck](img/PingAck_seq_diagram.jpg)
 
-La strategia di Health-Check utilizzata è Ping Ack.
+
+Studenti:
+</br>
+Alessandro Mauro
+</br>
+Andrea Calabretta
+
