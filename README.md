@@ -106,5 +106,6 @@ Ecco il diagramma di sequenza che ne descrive il funzionamento:
 Studenti:
 </br>
 Alessandro Mauro
+</br>
 Andrea Calabretta
 
