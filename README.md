@@ -71,3 +71,5 @@ Come da specifiche, al fallimento della richiesta HTTP, il micro-servizio deve p
 ### 5. Kafka e Ping Ack
 
 La strategia di Health-Check utilizzata è Ping Ack.
+
+![PingAck](img/PingAck_seq_diagram.jpg)
