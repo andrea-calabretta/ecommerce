@@ -101,3 +101,10 @@ La strategia di Health-Check utilizzata è Ping Ack ed è finalizzato a verifica
 Ecco il diagramma di sequenza che ne descrive il funzionamento:
 
 ![PingAck](img/PingAck_seq_diagram.jpg)
+
+
+Studenti:
+</br>
+Alessandro Mauro
+Andrea Calabretta
+
