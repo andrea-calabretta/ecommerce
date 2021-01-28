@@ -58,8 +58,8 @@ public class PaymentService implements ServiceInterface {
         ArrayList<Payment> payments_filtered = new ArrayList<>();
         for (int i = 0; i< payments_all.size(); i++)
         {
-            if (payments_all.get(i).getUnix_creation_ts(Instant.now().getEpochSecond()) >= startTmsp &&
-                    payments_all.get(i).getUnix_creation_ts(Instant.now().getEpochSecond()) <= endTmsp)
+            if (payments_all.get(i).getTimestamp() >= startTmsp &&
+                    payments_all.get(i).getTimestamp() <= endTmsp)
             {
                 payments_filtered.add(payments_all.get(i));
             }

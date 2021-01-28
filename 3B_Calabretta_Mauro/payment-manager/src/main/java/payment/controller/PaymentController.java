@@ -44,16 +44,16 @@ public class PaymentController {
 
         try {
             //save on DB
-            payment.getUnix_creation_ts(Instant.now().getEpochSecond());
+            payment.setTimestamp(Instant.now().getEpochSecond());
             svc.save(payment);
             //save on topic orders in Kafka
             KafkaPaymentUpdate updateRequest = (KafkaPaymentUpdate) new KafkaPaymentUpdate()
                     .setOrderId(payment.getOrderId())
                     .setUserId(payment.getUserId())
                     .setAmountPaid(payment.getAmountPaid())
-                    .setUnix_creation_ts(Instant.now().getEpochSecond());
+                    .setTimestamp(payment.getTimestamp());
             svc.sendMessage(new Gson().toJson(updateRequest));
-            return updateRequest;
+            return payment;
         }catch (Exception e ){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR) ;
         }
@@ -76,7 +76,7 @@ public class PaymentController {
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     Payment save(@RequestBody Payment payment){
-        payment.setUnix_creation_ts(Instant.now().getEpochSecond());
+        payment.setTimestamp(Instant.now().getEpochSecond());
         return svc.save(payment);
     }
 

@@ -2,6 +2,7 @@ package payment.model;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,21 +12,20 @@ import java.math.BigDecimal;
 @Document
 public class Payment {
 
-    @Id
+
     private String orderId;
     private Integer userId;
     private BigDecimal amountPaid;
-    private long unix_creation_ts;
-
+    private long timestamp;
 
     @JsonCreator
-    public Payment(String orderId, Integer userId, BigDecimal amountPaid, long unix_creation_ts) {
+    public Payment(String orderId, Integer userId, BigDecimal amountPaid, long timestamp) {
         this.orderId = orderId;
         this.userId = userId;
         this.amountPaid = amountPaid;
-        this.unix_creation_ts = unix_creation_ts;
-
+        this.timestamp = timestamp;
     }
+
 
     public Payment(){
 
@@ -58,12 +58,12 @@ public class Payment {
         return this;
     }
 
-    public long getUnix_creation_ts(long epochSecond) {
-        return unix_creation_ts;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public Payment setUnix_creation_ts(long unix_creation_ts) {
-        this.unix_creation_ts = unix_creation_ts;
+    public Payment setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
         return this;
     }
 }
