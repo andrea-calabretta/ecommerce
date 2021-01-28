@@ -4,7 +4,7 @@
 ## Relazione finale          (considerare solo il brach "main", ignorare il branch "ale")
 
 ### 1. Introduzione
-Nella realizzazione di un sistema “e-commerce” distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B con database Mongo. 
+Nella realizzazione di un sistema “e-commerce" distribuito, ci siamo dedicati allo sviluppo del micro-servizio relativo alla gestione dei pagamenti (Progetto 3) nella sua variante B con database Mongo. 
 Come da specifiche di progetto, le tecnologie utilizzate sono : 
 - **Database non relazionale -MongoDB-** 
 - **Java Spring MVC**
