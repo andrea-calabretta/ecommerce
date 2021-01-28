@@ -43,7 +43,7 @@ Ecco il diagramma di sequenza che descrive il funzionamento dell'entrypoint /pay
 
 ![ipn](img/ipn_seq_diagram.jpg)
 
-L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} invece, restituisce le transazioni effettuate o all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
+Invece, l'entrypoint /transactions?fromTimestamp=timestamp1&Timestamp=timestamp2 restituisce le transazioni effettuate o all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp, solamente se l'header della richiesta ha "userId" = 0.
 
 ``` JSON
 {
@@ -67,6 +67,10 @@ L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} 
     }
 }
 ```
+
+Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromTimestamp=timestamp1&Timestamp=timestamp2   :
+
+|[transactions](img/Transaction_seq_diagram.jpg)
 
 
 ### 4. Controller - Error handling
