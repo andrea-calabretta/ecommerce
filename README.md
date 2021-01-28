@@ -70,7 +70,7 @@ Invece, l'entrypoint /transactions?fromTimestamp=timestamp1&Timestamp=timestamp2
 
 Ecco il diagramma di sequenza relativo all'entrypoint /payment/transaction?fromTimestamp=timestamp1&Timestamp=timestamp2   :
 
-|[transactions](img/Transaction_seq_diagram.jpg)
+![transactions](img/Transaction_seq_diagram.jpg)
 
 
 ### 4. Controller - Error handling
