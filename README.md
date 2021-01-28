@@ -15,7 +15,7 @@ Per avviare il progetto è possibile seguire questo breve video: "link".
 
 ### 2. Diagramma delle classi
 
-Inserisci immagine
+![alt text](https://github.com/andrea-calabretta/ecommerce/tree/main/img/Class_Diagram.jpg?raw=true)
 
 
 ### 3. Controller - Entrypoint
@@ -30,37 +30,37 @@ Tramite la funzione "add" implementata all'interno del controller e i metodi get
 updateRequest è un parametro di tipo PaymentUpdateRequest ovvero una classe che estende Payment.   
 
 ``` JSON
-{ 
-  "orderId": "2",
-    "userId": 0,
-    "amountPaid": 4844,
-    "unix_creation_ts": 1611659261,
-    "unix_update_ts": 0
-}
+ {
+     "orderId": "0015",
+     "userId": 2,
+     "amountPaid": 2000,
+     "timestamp": 1611858477
+ }
 ```
 
 L'entrypoint /transactions?fromTimestamp={$timestamp}&endTimestamp={$timestamp} restituisce gli elementi con userId -passato come header della request- uguale a 0, e soltanto all'interno di un dato intervallo di tempo i cui estremi sono fromTimestamp ed endTimestamp.
 
 ``` JSON
-
 {
-        "orderId": "2",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691838
+   {
+     "orderId": "0013",
+     "userId": 2,
+     "amountPaid": 2500,
+     "timestamp": 1611856883
+   },
+   {
+     "orderId": "0014",
+     "userId": 4,
+     "amountPaid": 1000,
+     "timestamp": 1611857573
     },
     {
-        "orderId": "3",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691857
-    },
-    {
-        "orderId": "4",
-        "userId": 0,
-        "amountPaid": 4664242,
-        "unix_creation_ts": 1611691869
+     "orderId": "0015",
+     "userId": 1,
+     "amountPaid": 750,
+     "timestamp": 1611858477
     }
+}
 ```
 
 
