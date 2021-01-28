@@ -15,7 +15,7 @@ Per avviare il progetto è possibile seguire questo breve video: "link".
 
 ### 2. Diagramma delle classi
 
-![alt text](https://github.com/andrea-calabretta/ecommerce/tree/main/img/Class_Diagram.jpg?raw=true)
+![ClassDiagram](img/Class_Diagram.jpg)
 
 
 ### 3. Controller - Entrypoint
