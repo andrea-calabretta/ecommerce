@@ -68,7 +68,7 @@ public class PaymentController {
     ArrayList <Payment>
     getPaymentsByDate(@RequestParam long fromTimestamp,
                    @RequestParam long endTimestamp,
-                   @RequestHeader Integer userId)
+                   @RequestHeader("X-User-ID") Integer userId)
     {
 
         if (userId == 0) return svc.getTransactions(fromTimestamp, endTimestamp);

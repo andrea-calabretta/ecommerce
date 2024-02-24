@@ -48,6 +48,7 @@ public class HttpExceptionHandler {
             String stacktrace = sw.toString();
             httpVal.setError(stacktrace);
         }
+
         if(ex.getStatus().is4xxClientError())
         {
             httpVal.setError(String.valueOf(ex.getStatus().value()));
