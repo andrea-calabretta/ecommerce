@@ -1,0 +1,10 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: ds-cluster
+nodes:
+  - role: control-plane
+    labels:
+      custom-label: "control-plane"
+  - role: worker
+    labels:
+      custom-label: "worker"
