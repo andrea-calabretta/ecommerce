@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: dsbd
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+spec:
+  ingressClassName: "nginx"
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /users(/|$)(.*)
+            backend:
+              service:
+                name: microuser-service
+                port:
+                  number: 5000
+
+          - pathType: ImplementationSpecific
+            path: /photos(/|$)(.*)
+            backend:
+              service:
+                name: microphoto-service
+                port:
+                  number: 5000
+
+          - pathType: ImplementationSpecific
+            path: /get(/|$)(.*)
+            backend:
+              service:
+                name: minio-service
+                port:
+                  number: 9000
+
+          - pathType: ImplementationSpecific
+            path: /qos(/|$)(.*)
+            backend:
+              service:
+                name: sla-service
+                port:
+                  number: 5000

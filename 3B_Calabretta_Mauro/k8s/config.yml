@@ -1,10 +1,29 @@
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-name: ds-cluster
+name: my-cluster
 nodes:
   - role: control-plane
     labels:
       custom-label: "control-plane"
+    ## The following is required to enable ingress on the control-plane node
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+      - containerPort: 81
+        hostPort: 81
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
   - role: worker
     labels:
       custom-label: "worker"
+    extraPortMappings:
+      - containerPort: 30092 # internal kafka nodeport
+        hostPort: 9092 # port exposed on "host" machine for kafka
+      - containerPort: 30093 # metrics kafka nodeport
+        hostPort: 9093 # port exposed on "host" machine for kafka metrics
