@@ -15,33 +15,36 @@ spec:
       http:
         paths:
           - pathType: ImplementationSpecific
-            path: /users(/|$)(.*)
+            path: /payment(/|$)(.*)
             backend:
               service:
-                name: microuser-service
+                name: micropayment-service
                 port:
                   number: 5000
 
-          - pathType: ImplementationSpecific
-            path: /photos(/|$)(.*)
-            backend:
-              service:
-                name: microphoto-service
-                port:
-                  number: 5000
-
-          - pathType: ImplementationSpecific
-            path: /get(/|$)(.*)
-            backend:
-              service:
-                name: minio-service
-                port:
-                  number: 9000
-
-          - pathType: ImplementationSpecific
-            path: /qos(/|$)(.*)
-            backend:
-              service:
-                name: sla-service
-                port:
-                  number: 5000
+# TODO: delete
+#          - pathType: ImplementationSpecific
+#            path: /photos(/|$)(.*)
+#            backend:
+#              service:
+#                name: microphoto-service
+#                port:
+#                  number: 5000
+#
+#          - pathType: ImplementationSpecific
+#            path: /get(/|$)(.*)
+#            backend:
+#              service:
+#                name: minio-service
+#                port:
+#                  number: 9000
+#
+#          - pathType: ImplementationSpecific
+#            path: /qos(/|$)(.*)
+#            backend:
+#              service:
+#                name: sla-service
+#                port:
+#                  number: 5000
+#
+#

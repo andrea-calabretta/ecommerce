@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paymentdb
+  namespace: dsbd
+spec:
+  serviceName: "paymentdb"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentdb
+  template:
+    metadata:
+      labels:
+        app: paymentdb
+    spec:
+      containers:
+        - name: paymentdb
+          image: ziocal/paymentdb:1.0
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: paymentdb-data
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: paymentdb-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Mi
+
+---
+
+# mongodb-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentdb
+  namespace: dsbd
+spec:
+  selector:
+    app: paymentdb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
