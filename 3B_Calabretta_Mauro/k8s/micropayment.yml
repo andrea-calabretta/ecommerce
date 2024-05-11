@@ -11,9 +11,9 @@ spec:
       port: 5000
       targetPort: 5000
       name: micropayment
-    - port: 9000
-      targetPort: 9000
-      name: exporter
+#    - port: 9000
+#      targetPort: 9000
+#      name: exporter
 
 ---
 
@@ -39,23 +39,24 @@ spec:
           ports:
             - containerPort: 5000
 #            - containerPort: 9000
-          env:
-            - name: token_secret
-              value: metro
-            - name: mongo_connection
-              value: mongodb://paymentdb:27017/
-            - name: mongo_user
-              value: DS
-            - name: mongo_pwd
-              value: "2023"
-            - name: minio_bucket
-              value: post
-            - name: minio_user
-              value: username
-            - name: minio_pwd
-              value: password
-            - name: minio_endpoint
-              value: "minio-service:9000"
-            - name: kafka_endpoint
-              value: "kafka:9092"
+#          env:
+#            - name: token_secret
+#              value: metro
+#            - name: mongo_connection
+#              value: mongodb://paymentdb:27017/
+#            - name: mongo_user
+#              value: DS
+#            - name: mongo_pwd
+#              value: "2023"
+#            - name: minio_bucket
+#              value: post
+#            - name: minio_user
+#              value: username
+#            - name: minio_pwd
+#              value: password
+#            - name: minio_endpoint
+#              value: "minio-service:9000"
+#            - name: kafka_endpoint
+#              value: "kafka:9092"
+
 #          command: ["flask", "--app", "microPhoto", "run", "--host=0.0.0.0"]
