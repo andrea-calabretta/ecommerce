@@ -9,11 +9,9 @@ spec:
   ports:
     - protocol: TCP
       port: 5000
-      targetPort: 5000
+      targetPort: 8080
+#     targetPort: 5000
       name: micropayment
-#    - port: 9000
-#      targetPort: 9000
-#      name: exporter
 
 ---
 
@@ -34,12 +32,34 @@ spec:
     spec:
       containers:
         - name: micropayment-container
-          image: ziocal/micropayment:1.0
+          image: ziocal/micropayment:3.0
           imagePullPolicy: Always
           ports:
-            - containerPort: 5000
-#            - containerPort: 9000
-#          env:
+            - containerPort: 8080
+
+          env:
+            - name: MONGO_HOST
+              value: paymentdb
+            - name: MONGO_USER
+              value: root
+            - name: MONGO_PASS
+              value: toor
+            - name: MONGO_AUTH_DB
+              value: admin
+            - name: MONGO_DB_NAME
+              value: orderdb
+            - name: mongo_connection
+              value: mongodb://paymentdb:27017/
+            - name: MONGO_PORT
+              value: "27017"
+
+
+#  MONGO_USER: &mongo-user root
+#  MONGO_PASS: &mongo-pass toor
+#  MONGO_AUTH_DB: admin
+#  MONGO_HOST: mongo
+#  MONGO_PORT: 27017
+#  MONGO_DB_NAME: orderdb
 #            - name: token_secret
 #              value: metro
 #            - name: mongo_connection
