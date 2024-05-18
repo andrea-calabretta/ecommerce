@@ -15,7 +15,7 @@ spec:
       http:
         paths:
           - pathType: ImplementationSpecific
-            path: /payment(/|$)(.*)
+            path: /(|$)(.*)
             backend:
               service:
                 name: micropayment-service
