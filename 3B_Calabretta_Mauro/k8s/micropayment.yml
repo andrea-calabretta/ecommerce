@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: micropayment-service
+  name: micropayment-svc
   namespace: dsbd
 spec:
   selector:
@@ -31,14 +31,14 @@ spec:
     spec:
       containers:
         - name: micropayment-container
-          image: ziocal/micropayment:3.0
+          image: ziocal/micropayment:4.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
 
           env:
             - name: MONGO_HOST
-              value: paymentdb
+              value: paymentdb-svc
             - name: MONGO_USER
               value: root
             - name: MONGO_PASS
@@ -49,6 +49,12 @@ spec:
               value: paymentdb
             - name: MONGO_PORT
               value: "27017"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka:9092"
+            - name: KAFKA_ORDERS_TOPIC
+              value: "orders"
+            - name: KAFKA_ERROR_TOPIC
+              value: "logging"
 
 
 #  MONGO_USER: &mongo-user root

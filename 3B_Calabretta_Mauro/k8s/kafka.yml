@@ -67,6 +67,12 @@ spec:
             - containerPort: 9092
           env:
             # JMX PORT FOR KAFKA EXPORTER
+#            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+#              value: kafka:9092
+#            - name: KAFKA_ORDERS_TOPIC
+#              value: orders
+#            - name: KAFKA_ERROR_TOPIC
+#              value: logging
             - name: JMX_PORT
               value: "9010"
             - name: KAFKA_ADVERTISED_LISTENERS
@@ -106,7 +112,7 @@ kind: Service
 metadata:
   labels:
     app: zookeeper
-  name: zookeeper
+  name: zookeeper-svc
 spec:
   ports:
     - name: "2181"
