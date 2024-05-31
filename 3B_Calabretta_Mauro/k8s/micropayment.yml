@@ -35,6 +35,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"    # 0.1 CPU
+              memory: "128Mi"  # 128 MiB
+            limits:
+              cpu: "200m"    # 0.2 CPU
+              memory: "256Mi"  # 256 MiB
 
           env:
             - name: MONGO_HOST

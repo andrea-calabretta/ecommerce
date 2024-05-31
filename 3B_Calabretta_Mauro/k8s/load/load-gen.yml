@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadgenerator
+  labels:
+    app: loadgenerator
+spec:
+  selector:
+    app: loadgenerator
+  ports:
+    - name: metrics
+      port: 9646
+      targetPort: 9646
+    - name: locust
+      port: 8089
+      targetPort: 8089
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgenerator
+spec:
+  selector:
+    matchLabels:
+      app: loadgenerator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loadgenerator
+    spec:
+      volumes:
+        - name: locust-config
+          configMap:
+            name: locust-config
+      restartPolicy: Always
+      #TODO add initContainer waiting benchy ready
+      containers:
+        - name: locust-exporter
+          image: containersol/locust_exporter
+          imagePullPolicy: Always
+          env:
+            - name: LOCUST_HOST
+              value: "localhost"
+          ports:
+            - containerPort: 9646
+        - name: load-generator
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+          image: ziocal/locust:1.0
+          imagePullPolicy: Always
+          env:
+            - name: USERS
+              value: "10"
+            - name: TARGET_ADDR
+              value: ":80"
+          resources:
+            requests:
+              cpu: 300m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 8089
+
+          volumeMounts:
+            - name: locust-config
+              mountPath: /loadgen
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: locust-config
+data:
+  locustfile.py: |
+    from locust import HttpUser, task, between
+
+    class User(HttpUser):
+      wait_time = between(1, 2.5)
+    
+      @task
+      def payment_ping(self):
+          self.client.post(url="/payment/ping")
