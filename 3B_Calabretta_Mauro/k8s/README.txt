@@ -37,13 +37,9 @@ kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack
 
-kubectl --namespace default get pods -l "release=prometheus"
-
-#CONFIGURAZIONE PER I METRICS SERVER (LA MIGLIORE AD ORA)
+#CONFIGURAZIONE PER I METRICS SERVER 
+cd load 
 kubectl apply -f components.yml
 
 #LOCUST e Horizontal Pod Autoscaling (HPA)
@@ -51,18 +47,27 @@ cd load
 kubectl apply -f micropayment-hpa.yml -n dsbd
 kubectl get hpa -n dsbd
 kubectl get pods -n dsbd
+kubectl get pods -n kube-system
 
+
+# QUESTI 3 COMANDI STRESSANO IL CLUSTER FINO A FARE CROLLARE IL kube-scheduler
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/kube-prometheus-stack
+
+kubectl --namespace default get pods -l "release=prometheus"
 
 kubectl apply -f locust-service-monitor.yml -n dsbd
 kubectl apply -f load-gen.yml -n dsbd
-
-#NON FUNZIONA:
-#kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml --namespace=kube-system
 
 kubectl apply -f resource-reader.yml
 kubectl apply -f components.yml
 kubectl apply -f metric-server.yml
 kubectl get pods -n kube-system
+
+(per vedere quali sono tutti gli eventi che si sono verificati nel cluster, utile per capire perchè lo scheduler è andato giù)
+kubectl get events
+
 
 
 sudo kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 192.168.1.20

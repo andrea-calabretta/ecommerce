@@ -147,7 +147,7 @@ spec:
             path: /livez
             port: https
             scheme: HTTPS
-          periodSeconds: 10
+          periodSeconds: 15
         name: metrics-server
         ports:
         - containerPort: 10250
@@ -163,8 +163,8 @@ spec:
           periodSeconds: 10
         resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 100m 
+            memory: 200Mi 
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
