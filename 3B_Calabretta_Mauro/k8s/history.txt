@@ -1,0 +1,20 @@
+  589  kubectl get pv
+  590  kubectl get pvc
+  591  kubectl get pvc -a
+  592  kubectl get pvc -A
+  593  docker ps
+  594  kubectl get node
+  595  kubectl get node -wide
+  596  kubectl get node -o wide
+  597  kubectl top node
+  598  kubectl top pod
+  599  kubectl top pod -n dsbd
+  600  kubectl top pod -A
+  601  kubectl get sts
+  602  kubectl get sts -n dsbd
+  603  kubectl describe  sts -n dsbd
+  604  kubectl get po
+  605  kubectl get po -A
+  606  history
+  607  history | tail -n 20
+  608  history | tail -n 20 > history_anto_2.txt

@@ -2,8 +2,12 @@ kind delete cluster --name my-cluster
 kind create cluster --config=config.yml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 kubectl create namespace dsbd
+
+kubectl create namespace monitoring
 kubectl apply -f ingress.yml
 kubectl apply -f kafka.yml -n dsbd
+kubectl apply -f kafka-exporter.yml -n dsbd
+
 kubectl apply -f paymentdb.yml -n dsbd
 
 kubectl exec -it paymentdb-0 -n dsbd -- /bin/bash
@@ -19,6 +23,9 @@ db.createUser(
 )
 
 kubectl apply -f micropayment.yml -n dsbd
+
+watch kubectl get pods -n dsbd
+
 
 Per entrare dentro il pod di kafka appena creato:
 kubectl exec -it kafka-0 -n dsbd -- /bin/bash
@@ -41,21 +48,46 @@ e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 #CONFIGURAZIONE PER I METRICS SERVER 
 cd load 
 kubectl apply -f components.yml
-
+watch "kubectl get pods -n kube-system | tail -n 2"
+watch -n 1 "kubectl get pods -n kube-system | tail -n 5"
 #LOCUST e Horizontal Pod Autoscaling (HPA)
 cd load
 kubectl apply -f micropayment-hpa.yml -n dsbd
+watch kubectl get hpa -n dsbd
+
 kubectl get hpa -n dsbd
 kubectl get pods -n dsbd
 kubectl get pods -n kube-system
 
 
-# QUESTI 3 COMANDI STRESSANO IL CLUSTER FINO A FARE CROLLARE IL kube-scheduler
+# PROMETHEUS E GRAFANA 
+helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
 
+
+kubectl --namespace monitoring get pods -l "release=prometheus"
 kubectl --namespace default get pods -l "release=prometheus"
+
+kubectl delete deployment prometheus-kube-prometheus-operator -n monitoring
+
+kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
+
+localhost:3000
+
+admin
+prom-operator
+
+#PROMETHEUS
+kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
+
+localhost:9090
+
+kubectl logs kafka-0 -n dsbd -c kafka
+kubectl logs kafka-0 -n dsbd -c kafka-exporter
+
 
 kubectl apply -f locust-service-monitor.yml -n dsbd
 kubectl apply -f load-gen.yml -n dsbd
@@ -76,23 +108,23 @@ helm install dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-d
 kubectl proxy &
 
 
-Salvatore Quattropani
+###################################################
 16:04
 sudo microk8s kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 151.97.13.120
-Salvatore Quattropani
+
 16:07
 kubectl get services --all-namespaces
-Salvatore Quattropani
+
 16:11
 helm install dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard --create-namespace
 kubectl proxy
-Salvatore Quattropani
+
 16:18
 # Add kubernetes-dashboard repository
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
 https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-Salvatore Quattropani
+
 16:20
 https://github.com/imorti/kind-dashboard-setup
