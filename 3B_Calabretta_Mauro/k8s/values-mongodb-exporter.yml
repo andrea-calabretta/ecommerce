@@ -1,0 +1,18 @@
+mongodb:
+  uri: "mongodb://paymentdb-svc.dsbd:27017"
+
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  additionalLabels:
+    release: prometheus
+  interval: 10s
+  scrapeTimeout: 10s
+  selector:
+    matchLabels:
+      app: mongodb-exporter
+
+#serviceMonitor:
+#  additionalLabels: 
+#    release: prometheus
+  

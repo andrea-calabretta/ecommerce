@@ -20,11 +20,4 @@ spec:
                 name: micropayment-svc
                 port:
                   number: 5000
-          - pathType: ImplementationSpecific
-            path: /grafana(|$)(.*)
-            backend:
-              service:
-                name: prometheus-grafana
-                port:
-                  number: 80
 

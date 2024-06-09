@@ -81,9 +81,27 @@ admin
 prom-operator
 
 #PROMETHEUS
+
+https://www.youtube.com/watch?v=mLPg49b33sA
+
+helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb-exporter.yml -n monitoring
+
+kubectl get svc -n monitoring 
+kubectl get pod -n monitoring
+kubectl get servicemonitor -n monitoring
+kubectl get servicemonitor mongodb-exporter-prometheus-mongodb-exporter -o yaml -n monitoring
+
+kubectl get svc -n monitoring
+kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216 -n monitoring
+
+
+
 kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
 
 localhost:9090
+
+
+
 
 kubectl logs kafka-0 -n dsbd -c kafka
 kubectl logs kafka-0 -n dsbd -c kafka-exporter

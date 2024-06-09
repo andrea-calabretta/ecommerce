@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookeeper
+  name: zookeeper-svc
   namespace: dsbd
 spec:
   ports:
@@ -65,7 +65,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka
+  name: kafka-svc
   namespace: dsbd
 spec:
   selector:

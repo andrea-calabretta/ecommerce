@@ -27,6 +27,3 @@ nodes:
         hostPort: 9092 # port exposed on "host" machine for kafka
       - containerPort: 30093 # metrics kafka nodeport
         hostPort: 9093 # port exposed on "host" machine for kafka metrics
-#  - role: worker
-#    labels:
-#      custom-label: "monitoring-node"
