@@ -12,7 +12,3 @@ serviceMonitor:
     matchLabels:
       app: mongodb-exporter
 
-#serviceMonitor:
-#  additionalLabels: 
-#    release: prometheus
-  

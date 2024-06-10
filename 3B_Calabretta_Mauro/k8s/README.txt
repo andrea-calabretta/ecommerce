@@ -80,10 +80,11 @@ localhost:3000
 admin
 prom-operator
 
-#PROMETHEUS
+# PROMETHEUS
 
 https://www.youtube.com/watch?v=mLPg49b33sA
 
+# MONGO DB EXPORTER
 helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb-exporter.yml -n monitoring
 
 kubectl get svc -n monitoring 
@@ -101,10 +102,20 @@ kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monit
 localhost:9090
 
 
+# KAFKA EXPORTER
+
+helm install kafka-exporter prometheus-community/prometheus-kafka-exporter -f values-kafka-exporter.yml -n dsbd
+
+helm uninstall kafka-exporter -n dsbd
+
+kubectl get svc -n dsbd 
 
 
 kubectl logs kafka-0 -n dsbd -c kafka
 kubectl logs kafka-0 -n dsbd -c kafka-exporter
+kubectl get pod -n monitoring
+helm uninstall mongodb-exporter -n monitoring
+helm uninstall kafka-exporter -n monitoring
 
 
 kubectl apply -f locust-service-monitor.yml -n dsbd
