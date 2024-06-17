@@ -4,7 +4,9 @@ sudo apt-get update
 ```
 
 kind delete cluster --name my-cluster
+
 kind create cluster --config=config.yml
+
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 kubectl create namespace dsbd
 
