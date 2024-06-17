@@ -5,7 +5,6 @@ kubectl create namespace dsbd
 
 kubectl create namespace monitoring
 kubectl apply -f ingress.yml
-kubectl apply -f kafka.yml -n dsbd
 kubectl apply -f kafka-exporter.yml -n dsbd
 
 kubectl apply -f paymentdb.yml -n dsbd
@@ -44,10 +43,9 @@ kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
-
 #CONFIGURAZIONE PER I METRICS SERVER 
 cd load 
-kubectl apply -f components.yml
+kubectl apply -f metrics-server.yml
 watch "kubectl get pods -n kube-system | tail -n 2"
 watch -n 1 "kubectl get pods -n kube-system | tail -n 5"
 #LOCUST e Horizontal Pod Autoscaling (HPA)
@@ -92,7 +90,6 @@ helm uninstall kafka-exporter -n dsbd
 
 kubectl get svc -n dsbd 
 
-
 kubectl logs kafka-0 -n dsbd -c kafka
 kubectl logs kafka-0 -n dsbd -c kafka-exporter
 kubectl get pod -n monitoring
@@ -117,44 +114,6 @@ prom-operator
 
 
 
-
-
-kubectl apply -f locust-service-monitor.yml -n dsbd
-kubectl apply -f load-gen.yml -n dsbd
-
-kubectl apply -f resource-reader.yml
-kubectl apply -f components.yml
-kubectl apply -f metric-server.yml
-kubectl get pods -n kube-system
-
 (per vedere quali sono tutti gli eventi che si sono verificati nel cluster, utile per capire perchè lo scheduler è andato giù)
 kubectl get events
 
-
-
-sudo kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 192.168.1.20
-#sudo microk8s kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 151.97.13.120
-helm install dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard --create-namespace
-kubectl proxy &
-
-
-###################################################
-16:04
-sudo microk8s kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 151.97.13.120
-
-16:07
-kubectl get services --all-namespaces
-
-16:11
-helm install dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard --create-namespace
-kubectl proxy
-
-16:18
-# Add kubernetes-dashboard repository
-helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-# Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
-https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-
-16:20
-https://github.com/imorti/kind-dashboard-setup
