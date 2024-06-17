@@ -68,21 +68,10 @@ helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
 
 
-kubectl --namespace monitoring get pods -l "release=prometheus"
-kubectl --namespace default get pods -l "release=prometheus"
+      kubectl --namespace monitoring get pods -l "release=prometheus"
+      kubectl --namespace default get pods -l "release=prometheus"
 
-kubectl delete deployment prometheus-kube-prometheus-operator -n monitoring
 
-kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
-
-localhost:3000
-
-admin
-prom-operator
-
-# PROMETHEUS
-
-https://www.youtube.com/watch?v=mLPg49b33sA
 
 # MONGO DB EXPORTER
 helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb-exporter.yml -n monitoring
@@ -94,13 +83,6 @@ kubectl get servicemonitor mongodb-exporter-prometheus-mongodb-exporter -o yaml 
 
 kubectl get svc -n monitoring
 kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216 -n monitoring
-
-
-
-kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
-
-localhost:9090
-
 
 # KAFKA EXPORTER
 
@@ -116,6 +98,25 @@ kubectl logs kafka-0 -n dsbd -c kafka-exporter
 kubectl get pod -n monitoring
 helm uninstall mongodb-exporter -n monitoring
 helm uninstall kafka-exporter -n monitoring
+
+# PROMETHEUS
+
+https://www.youtube.com/watch?v=mLPg49b33sA
+
+kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
+
+localhost:9090
+
+# GRAFANA
+kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
+
+localhost:3000
+
+admin
+prom-operator
+
+
+
 
 
 kubectl apply -f locust-service-monitor.yml -n dsbd
