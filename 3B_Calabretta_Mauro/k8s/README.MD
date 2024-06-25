@@ -1,33 +1,46 @@
 # Distributed Systems & Big Data 2024 
 
-## Calabretta
+## Andrea Calabretta
 
 ### Istruzioni per il deploy su k8s
 
-Se precedentemente è stato creato un cluster di nome "my-cluster", eliminarlo con:
+Se precedentemente è stato creato un cluster di nome "my-cluster", eliminiamolo con:
 ```sh
 kind delete cluster --name my-cluster
 ```
-Creare il nuovo cluster secondo quanto presente nel file di configurazione:
+Creaiamo il nuovo cluster secondo quanto presente nel file di configurazione:
 
 kind create cluster --config=config.yml
 ```sh
 kind create cluster --config=config.yml
 ```
-Configurare NGINX come Ingress, seguendo la configurazione della documentazione ufficiale:
+Configuriamo NGINX come Ingress, seguendo la configurazione della documentazione ufficiale:
 
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 ```
+Creiamo 2 namespace che ci serviranno successivamente:
 
+```sh
 kubectl create namespace dsbd
-
 kubectl create namespace monitoring
+```
+Facciamo l'apply del manifest dell'ingress:
+```sh
 kubectl apply -f ingress.yml
+```
+Facciamo l'apply del manifest di kafka:
+```sh
 kubectl apply -f kafka-exporter.yml -n dsbd
+```
+Facciamo l'apply del manifest del database mongo:
 
+```sh
 kubectl apply -f paymentdb.yml -n dsbd
+```
+All'interno del pod del database, creiamo l'utente admin che ci serve per essere coerenti con il resto delle configurazioni:
 
+```sh
 kubectl exec -it paymentdb-0 -n dsbd -- /bin/bash
 mongo
 use admin
@@ -39,6 +52,8 @@ db.createUser(
     roles: [ { role: "root", db: "admin" } ]
   }
 )
+```
+
 
 kubectl apply -f micropayment.yml -n dsbd
 
