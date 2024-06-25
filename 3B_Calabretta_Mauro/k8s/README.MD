@@ -1,13 +1,29 @@
-```sh
-# Aggiorna il sistema
-sudo apt-get update
-```
+# Distributed Systems & Big Data 2024 
+<br />
 
+## Calabretta
+
+### Istruzioni per il deploy su k8s
+
+Se precedentemente è stato creato un cluster di nome "my-cluster", eliminarlo con:
+```sh
+# Eliminare il cluster precedente
 kind delete cluster --name my-cluster
+```
+Creare il nuovo cluster secondo quanto presente nel file di configurazione:
 
 kind create cluster --config=config.yml
+```sh
+# Crea il nuovo cluster
+kind create cluster --config=config.yml
+```
+Configurare NGINX come Ingress, seguendo la configurazione della documentazione ufficiale:
 
+```sh
+# Configurare l'Ingress
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+```
+
 kubectl create namespace dsbd
 
 kubectl create namespace monitoring
