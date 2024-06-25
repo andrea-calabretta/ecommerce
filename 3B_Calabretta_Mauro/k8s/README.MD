@@ -1,5 +1,4 @@
 # Distributed Systems & Big Data 2024 
-<br />
 
 ## Calabretta
 
