@@ -104,18 +104,31 @@ Aspettiamo che il pod dei metrics-server sia attivo perchè altrimenti non possi
 watch "kubectl get pods -n kube-system | tail -n 2"
 watch -n 1 "kubectl get pods -n kube-system | tail -n 5"
 ```
+Appena i metrics-server sono attivi, l'HPA sarà in grado di ricevere le metriche di CPU e quindi dimensionare i pod di conseguenza.
 
-#LOCUST e Horizontal Pod Autoscaling (HPA)
+## LOCUST e Horizontal Pod Autoscaling (HPA)
+```sh
 cd load
 kubectl apply -f micropayment-hpa.yml -n dsbd
 watch kubectl get hpa -n dsbd
+```
+
+A questo punto possiamo stressare il nostro cluster con Locust:
+```sh
+locust -f locust.py --host http://localhost:80
+```
+
+e accediamo alla GUI di Locust andando su:
+```sh
+localhost:8089
+```
 
 kubectl get hpa -n dsbd
 kubectl get pods -n dsbd
 kubectl get pods -n kube-system
 
 
-# PROMETHEUS E GRAFANA 
+## PROMETHEUS E GRAFANA 
 helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
