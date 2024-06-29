@@ -54,26 +54,39 @@ db.createUser(
 )
 ```
 
+Ora creiamo il pod che gestisce i pagamenti:
 
+```sh
 kubectl apply -f micropayment.yml -n dsbd
+```
+Monitoriamo tutti i pods del namespace dsbd:
 
+```sh
 watch kubectl get pods -n dsbd
+```
 
+Ora monitoriamo la coda kafka e i topic orders e logging:
 
 Per entrare dentro il pod di kafka appena creato:
+```sh
 kubectl exec -it kafka-0 -n dsbd -- /bin/bash
+```
 
-e poi avviare il consumer di kafka:
+avviamo il consumer di kafka sul topic orders:
+```sh
 kafka-console-consumer --bootstrap-server kafka:9092 --topic orders
+```
 e lasciamo il terminale aperto (qui vedremo gli orders)
 
 a questo punto facciamo una POST all’endpoint:
+```sh
 http://localhost:80/payment/ipn
+```
 
-poi avviamo un altro terminale:
-e poi avviare il consumer di kafka
+Apriamo un altro terminale e avviamo il consumer di kafka sul topic logging:
+```sh
 kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
-
+```
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
