@@ -182,12 +182,18 @@ helm uninstall kafka-exporter -n monitoring
 ```
 
 # PROMETHEUS
+Questo è il tutorial che ho seguito:
 
 https://www.youtube.com/watch?v=mLPg49b33sA
 
+Facciamo forwarding della porta per poter accedere alla GUI di Prometheus da browser:
+```sh
 kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
-
+```
+Accediamo alla GUI:
+```sh
 localhost:9090
+```
 
 # GRAFANA
 kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
