@@ -124,18 +124,20 @@ localhost:8089
 
 ## PROMETHEUS E GRAFANA 
 A questo punto configuriamo Prometheus e Grafana:
+
 ```sh
-helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
-```
-```sh
-helm repo add Prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
 ```
 ```sh
 helm repo update
 ```
 ```sh
-helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
+helm repo add Prometheus-community https://prometheus-community.github.io/helm-charts
 ```
+```sh
+helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
+```
+
 
 
       kubectl --namespace monitoring get pods -l "release=prometheus"
