@@ -2,7 +2,7 @@
 
 ## Andrea Calabretta
 
-### Istruzioni per il deploy su k8s
+# Istruzioni per il deploy su k8s
 
 Se precedentemente è stato creato un cluster di nome "my-cluster", eliminiamolo con:
 ```sh
@@ -90,7 +90,7 @@ kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
-#CONFIGURAZIONE PER I METRICS SERVER 
+## CONFIGURAZIONE PER I METRICS SERVER 
 cd load 
 kubectl apply -f metrics-server.yml
 watch "kubectl get pods -n kube-system | tail -n 2"
