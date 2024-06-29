@@ -139,15 +139,20 @@ helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-value
 ```
 
 
-
-      kubectl --namespace monitoring get pods -l "release=prometheus"
-      kubectl --namespace default get pods -l "release=prometheus"
+watch kubectl --namespace monitoring get pods -l "release=prometheus"
+watch kubectl --namespace default get pods -l "release=prometheus"
 
 
 
 # MONGO DB EXPORTER
+Installiamo l'exporter di mongo nel namespace monitoring
+```sh
 helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb-exporter.yml -n monitoring
+```
 
+
+Altri comandi che possono tornarci utili all'occorrenza:
+```sh
 kubectl get svc -n monitoring 
 kubectl get pod -n monitoring
 kubectl get servicemonitor -n monitoring
@@ -155,11 +160,16 @@ kubectl get servicemonitor mongodb-exporter-prometheus-mongodb-exporter -o yaml 
 
 kubectl get svc -n monitoring
 kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216 -n monitoring
+```
 
 # KAFKA EXPORTER
 
+```sh
 helm install kafka-exporter prometheus-community/prometheus-kafka-exporter -f values-kafka-exporter.yml -n dsbd
+```
 
+Altri comandi che possono tornarci utili:
+```sh
 helm uninstall kafka-exporter -n dsbd
 
 kubectl get svc -n dsbd 
@@ -169,6 +179,7 @@ kubectl logs kafka-0 -n dsbd -c kafka-exporter
 kubectl get pod -n monitoring
 helm uninstall mongodb-exporter -n monitoring
 helm uninstall kafka-exporter -n monitoring
+```
 
 # PROMETHEUS
 
