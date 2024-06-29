@@ -1,14 +1,46 @@
+# Distributed Systems & Big Data 2024 
+
+## Andrea Calabretta
+
+# Istruzioni per il deploy su k8s
+
+Se precedentemente è stato creato un cluster di nome "my-cluster", eliminiamolo con:
+```sh
 kind delete cluster --name my-cluster
+```
+Creaiamo il nuovo cluster secondo quanto presente nel file di configurazione:
+
 kind create cluster --config=config.yml
+```sh
+kind create cluster --config=config.yml
+```
+Configuriamo NGINX come Ingress, seguendo la configurazione della documentazione ufficiale:
+
+```sh
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+```
+Creiamo 2 namespace che ci serviranno successivamente:
+
+```sh
 kubectl create namespace dsbd
-
 kubectl create namespace monitoring
+```
+Facciamo l'apply del manifest dell'ingress:
+```sh
 kubectl apply -f ingress.yml
+```
+Facciamo l'apply del manifest di kafka:
+```sh
 kubectl apply -f kafka-exporter.yml -n dsbd
+```
+Facciamo l'apply del manifest del database mongo:
 
+```sh
 kubectl apply -f paymentdb.yml -n dsbd
+```
+All'interno del pod del database, creiamo l'utente admin che ci serve per essere coerenti con il resto delle configurazioni:
 
+```sh
 kubectl exec -it paymentdb-0 -n dsbd -- /bin/bash
 mongo
 use admin
@@ -20,50 +52,91 @@ db.createUser(
     roles: [ { role: "root", db: "admin" } ]
   }
 )
+```
 
+Ora creiamo il pod che gestisce i pagamenti:
+
+```sh
 kubectl apply -f micropayment.yml -n dsbd
+```
+Monitoriamo tutti i pods del namespace dsbd:
 
+```sh
 watch kubectl get pods -n dsbd
+```
 
+Ora monitoriamo la coda kafka e i topic orders e logging:
 
 Per entrare dentro il pod di kafka appena creato:
+```sh
 kubectl exec -it kafka-0 -n dsbd -- /bin/bash
+```
 
-e poi avviare il consumer di kafka:
+avviamo il consumer di kafka sul topic orders:
+```sh
 kafka-console-consumer --bootstrap-server kafka:9092 --topic orders
+```
 e lasciamo il terminale aperto (qui vedremo gli orders)
 
 a questo punto facciamo una POST all’endpoint:
+```sh
 http://localhost:80/payment/ipn
+```
 
-poi avviamo un altro terminale:
-e poi avviare il consumer di kafka
+Apriamo un altro terminale e avviamo il consumer di kafka sul topic logging:
+```sh
 kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
-
+```
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
-#CONFIGURAZIONE PER I METRICS SERVER 
+## Configurazione dei METRICS SERVER 
+
+Configuriamo i metrics server che ci servono per monitorare i parametri del nostro cluster (CPU e Memoria) e poter gestire l'autoscaling di conseguenza:
+
+```sh
 cd load 
 kubectl apply -f metrics-server.yml
+```
+Aspettiamo che il pod dei metrics-server sia attivo perchè altrimenti non possiamo avviare l'Horizzontal Pod Autoscaling
+
+```sh
 watch "kubectl get pods -n kube-system | tail -n 2"
 watch -n 1 "kubectl get pods -n kube-system | tail -n 5"
-#LOCUST e Horizontal Pod Autoscaling (HPA)
+```
+Appena i metrics-server sono attivi, l'HPA sarà in grado di ricevere le metriche di CPU e quindi dimensionare i pod di conseguenza.
+
+## LOCUST e Horizontal Pod Autoscaling (HPA)
+```sh
 cd load
 kubectl apply -f micropayment-hpa.yml -n dsbd
 watch kubectl get hpa -n dsbd
+```
 
-kubectl get hpa -n dsbd
-kubectl get pods -n dsbd
-kubectl get pods -n kube-system
+A questo punto possiamo stressare il nostro cluster con Locust:
+```sh
+locust -f locust.py --host http://localhost:80
+```
 
+e accediamo alla GUI di Locust andando su:
+```sh
+localhost:8089
+```
 
-# PROMETHEUS E GRAFANA 
+## PROMETHEUS E GRAFANA 
+A questo punto configuriamo Prometheus e Grafana:
+```sh
 helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
-
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+```sh
+helm repo add Prometheus-community https://prometheus-community.github.io/helm-charts
+```
+```sh
 helm repo update
+```
+```sh
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
+```
 
 
       kubectl --namespace monitoring get pods -l "release=prometheus"
