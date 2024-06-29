@@ -7,3 +7,7 @@ class WebsiteUser(HttpUser):
     @task
     def payment_ping(self):
         self.client.post(url="/payment/ping")
+
+# locust -f locust.py --host http://localhost:80
+
+# GUI LOCUST: localhost:8089
