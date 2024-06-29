@@ -190,21 +190,33 @@ Facciamo forwarding della porta per poter accedere alla GUI di Prometheus da bro
 ```sh
 kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring
 ```
-Accediamo alla GUI:
+Accediamo alla GUI di Prometheus:
 ```sh
 localhost:9090
 ```
 
 # GRAFANA
+Facciamo forwarding della porta per poter accedere alla GUI di Grafana da browser:
+```sh
 kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
+```
 
+Accediamo alla GUI di Grafana:
+```sh
 localhost:3000
+```
 
+Username:
+```sh
 admin
+```
+Password:
+```sh
 prom-operator
-
-
+```
 
 (per vedere quali sono tutti gli eventi che si sono verificati nel cluster, utile per capire perchè lo scheduler è andato giù)
+```sh
 kubectl get events
+```
 
