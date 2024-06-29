@@ -10,7 +10,6 @@ kind delete cluster --name my-cluster
 ```
 Creaiamo il nuovo cluster secondo quanto presente nel file di configurazione:
 
-kind create cluster --config=config.yml
 ```sh
 kind create cluster --config=config.yml
 ```
