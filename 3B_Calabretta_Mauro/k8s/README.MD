@@ -94,7 +94,7 @@ e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 Configuriamo i metrics server che ci servono per monitorare i parametri del nostro cluster (CPU e Memoria) e poter gestire l'autoscaling di conseguenza:
 
 ```sh
-cd load 
+cd load; 
 kubectl apply -f metrics-server.yml
 ```
 Aspettiamo che il pod dei metrics-server sia attivo perchè altrimenti non possiamo avviare l'Horizzontal Pod Autoscaling
