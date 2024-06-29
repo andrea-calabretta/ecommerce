@@ -21,7 +21,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/mast
 Creiamo 2 namespace che ci serviranno successivamente:
 
 ```sh
-kubectl create namespace dsbd
+kubectl create namespace dsbd;
 kubectl create namespace monitoring
 ```
 Facciamo l'apply del manifest dell'ingress:
