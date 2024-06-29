@@ -91,10 +91,20 @@ e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
 ## CONFIGURAZIONE PER I METRICS SERVER 
+
+Configuriamo i metrics server che ci servono per monitorare i parametri del nostro cluster (CPU e Memoria) e poter gestire l'autoscaling di conseguenza:
+
+```sh
 cd load 
 kubectl apply -f metrics-server.yml
+```
+Aspettiamo che il pod dei metrics-server sia attivo perchè altrimenti non possiamo avviare l'Horizzontal Pod Autoscaling
+
+```sh
 watch "kubectl get pods -n kube-system | tail -n 2"
 watch -n 1 "kubectl get pods -n kube-system | tail -n 5"
+```
+
 #LOCUST e Horizontal Pod Autoscaling (HPA)
 cd load
 kubectl apply -f micropayment-hpa.yml -n dsbd
