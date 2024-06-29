@@ -90,7 +90,7 @@ kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
 
-## CONFIGURAZIONE PER I METRICS SERVER 
+## Configurazione dei METRICS SERVER 
 
 Configuriamo i metrics server che ci servono per monitorare i parametri del nostro cluster (CPU e Memoria) e poter gestire l'autoscaling di conseguenza:
 
@@ -123,17 +123,20 @@ e accediamo alla GUI di Locust andando su:
 localhost:8089
 ```
 
-kubectl get hpa -n dsbd
-kubectl get pods -n dsbd
-kubectl get pods -n kube-system
-
-
 ## PROMETHEUS E GRAFANA 
+A questo punto configuriamo Prometheus e Grafana:
+```sh
 helm upgrade prometheus prometheus-community/kube-prometheus-stack --reset-values --namespace=monitoring
-
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+```sh
+helm repo add Prometheus-community https://prometheus-community.github.io/helm-charts
+```
+```sh
 helm repo update
+```
+```sh
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace=monitoring
+```
 
 
       kubectl --namespace monitoring get pods -l "release=prometheus"
