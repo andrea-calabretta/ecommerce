@@ -144,7 +144,7 @@ watch kubectl --namespace default get pods -l "release=prometheus"
 
 
 
-# MONGO DB EXPORTER
+## Mongo DB EXPORTER
 Installiamo l'exporter di mongo nel namespace monitoring
 ```sh
 helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values-mongodb-exporter.yml -n monitoring
@@ -162,7 +162,7 @@ kubectl get svc -n monitoring
 kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216 -n monitoring
 ```
 
-# KAFKA EXPORTER
+## KAFKA EXPORTER
 
 ```sh
 helm install kafka-exporter prometheus-community/prometheus-kafka-exporter -f values-kafka-exporter.yml -n dsbd
@@ -181,7 +181,7 @@ helm uninstall mongodb-exporter -n monitoring
 helm uninstall kafka-exporter -n monitoring
 ```
 
-# PROMETHEUS
+## PROMETHEUS
 Questo è il tutorial che ho seguito:
 
 https://www.youtube.com/watch?v=mLPg49b33sA
@@ -195,7 +195,7 @@ Accediamo alla GUI di Prometheus:
 localhost:9090
 ```
 
-# GRAFANA
+## GRAFANA
 Facciamo forwarding della porta per poter accedere alla GUI di Grafana da browser:
 ```sh
 kubectl port-forward deployment/prometheus-grafana 3000 -n monitoring
