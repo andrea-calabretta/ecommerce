@@ -7,7 +7,7 @@
 
 [Relazione](https://docs.google.com/document/d/1UOKLWHAr4T8uMy0Seu2Pvf9NBwkiemvxVK4VONbAqZc/edit#heading=h.6g7p9ad3858p)
 
-![Cluster Architecture](img/cluster.jpg)
+![Cluster Architecture](img/cluster.png)
 
 Se precedentemente è stato creato un cluster di nome "my-cluster", eliminiamolo con:
 ```sh
