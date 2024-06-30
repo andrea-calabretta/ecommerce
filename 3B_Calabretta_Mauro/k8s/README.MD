@@ -7,7 +7,7 @@
 
 [Relazione](https://docs.google.com/document/d/1UOKLWHAr4T8uMy0Seu2Pvf9NBwkiemvxVK4VONbAqZc/edit#heading=h.6g7p9ad3858p)
 
-![Cluster](img/cluster.jpg)
+![Cluster](../../img/cluster.jpg)
 
 Se precedentemente è stato creato un cluster di nome "my-cluster", eliminiamolo con:
 ```sh
