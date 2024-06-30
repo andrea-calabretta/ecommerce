@@ -85,12 +85,35 @@ a questo punto facciamo una POST all’endpoint:
 http://localhost:80/payment/ipn
 ```
 
+con il comando CURL:
+```sh
+curl -X POST http://localhost:80/payment/ipn \
+-H "Content-Type: application/json" \
+-d '{
+    "orderId": "0020",
+    "userId": 9,
+    "amountPaid": 4500
+}'
+
+```
+
 Apriamo un altro terminale e avviamo il consumer di kafka sul topic logging:
 ```sh
 kafka-console-consumer --bootstrap-server kafka:9092 --topic logging
 ```
 e lasciamo il terminale aperto (qui vedremo i logging in caso di errore)
 
+generiamo un errore con il comando CURL, facendo una chiamata ad un endpoint inesistente :
+```sh
+curl -X POST http://localhost:80/payment/ipnn \
+-H "Content-Type: application/json" \
+-d '{
+    "orderId": "0020",
+    "userId": 9,
+    "amountPaid": 4500
+}'
+
+```
 
 ## Configurazione dei METRICS SERVER 
 
