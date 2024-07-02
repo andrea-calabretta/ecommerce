@@ -206,7 +206,7 @@ kubectl logs kafka-0 -n dsbd -c kafka
 kubectl logs kafka-0 -n dsbd -c kafka-exporter
 kubectl get pod -n monitoring
 helm uninstall mongodb-exporter -n monitoring
-helm uninstall kafka-exporter -n monitoring
+helm uninstall kafka-exporter -n dsbd
 ```
 
 ## PROMETHEUS
